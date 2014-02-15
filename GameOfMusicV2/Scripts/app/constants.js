@@ -2,6 +2,9 @@
     [], function() {
         return {
             //world constants
+            ROWS: 10,
+            COLUMNS: 10,
+            
             
             //asset constants
             FONT: 'calibri',
