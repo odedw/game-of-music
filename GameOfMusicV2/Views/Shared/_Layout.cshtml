@@ -3,40 +3,37 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Game of Music</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+     <meta name="description" content="Game of Music | A music experiment based on Conway's Game of Life'" />
+    @*    @Html.Partial("Analytics")*@
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
+    </div>
+    <footer>
+        <p>Made by Inja Games</p>
+        <ul>
+            <li><a href="https://twitter.com/injagames" target="_blank"><img src="~/Content/Images/twitter.png" /> </a></li>
+            <li><a href="https://github.com/OdedW/game-of-music" target="_blank"><img src="~/Content/Images/github.png" /> </a></li>
+            <li><a href="https://soundcloud.com/injagames" target="_blank"> <img src="~/Content/Images/soundcloud.png" /> </a></li>
+            <li><a href="https://www.youtube.com/channel/UCA8cEeddcTGoZAPoBbFC78A" target="_blank"> <img src="~/Content/Images/youtube.png" /> </a></li>
+            <li><a href="mailto:InjaGames@outlook.com" target="_top"><img src="~/Content/Images/email.png" /> </a></li>
+        </ul>
+        <p>
+            <span>Works best on WebKit •</span>
+            <a href="http://www.google.com/chrome" target="_blank">Chrome</a>
+            <span>or</span>
+            <a href="http://www.apple.com/safari" target="_blank">Safari</a>
+        </p>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jsextlibs")
     @RenderSection("scripts", required: false)
 </body>
 </html>

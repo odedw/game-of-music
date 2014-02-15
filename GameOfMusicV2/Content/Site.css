@@ -1,42 +1,99 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  background-color: #434343;
 }
-
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+  max-width: 280px;
 }
-
 /* styles for validation helpers */
 .field-validation-error {
-    color: #b94a48;
+  color: #b94a48;
 }
-
 .field-validation-valid {
-    display: none;
+  display: none;
 }
-
 input.input-validation-error {
-    border: 1px solid #b94a48;
+  border: 1px solid #b94a48;
 }
-
 input[type="checkbox"].input-validation-error {
-    border: 0 none;
+  border: 0 none;
 }
-
 .validation-summary-errors {
-    color: #b94a48;
+  color: #b94a48;
 }
-
 .validation-summary-valid {
-    display: none;
+  display: none;
+}
+.container {
+  position: relative;
+  margin-top: 0px;
+}
+.container #canvas-container {
+  height: 528px;
+  width: 720px;
+  margin: auto;
+  background-color: black;
+  position: relative;
+  -webkit-touch-callout: none;
+}
+.container #canvas-container canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #2F2F2F;
+  color: LightGoldenRodYellow;
+  list-style-type: none;
+  font-family: calibri;
+  padding: 20px 0px;
+  border-top: 1px solid #DADAB2;
+}
+footer ul {
+  padding: 0px;
+}
+footer ul li {
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+footer ul li img {
+  height: 48px;
+  width: 48px;
+  position: relative;
+  /*Reflection*/
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.7, transparent), to(rgba(0, 0, 0, 0.1)));
+}
+footer ul li img:hover {
+  opacity: 1;
+  /*Reflection*/
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.7, transparent), to(rgba(0, 0, 0, 0.4)));
+  /*Glow*/
+}
+footer ul li img:active {
+  top: 1px;
+}
+@font-face {
+  font-family: Minecraftia;
+  src: url('Minecraftia.ttf') format('truetype');
 }
