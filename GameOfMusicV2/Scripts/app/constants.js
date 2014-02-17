@@ -3,8 +3,8 @@
         return {
             //world constants
             ROWS: 10,
-            COLUMNS: 10,
-            
+            COLUMNS: 16,
+            CELL_MARGIN:3,
             
             //asset constants
             FONT: 'calibri',

@@ -1,45 +1,8 @@
 ﻿define('gameLogic',
     ['constants'], function (constants) {
-                 
+             
                      
-        Array.prototype.each = function (callback) {
-            var i = 0;
-            while (i < this.length) {
-                callback.call(this, this[i]);
-                i++;
-            }
-            return this;
-        };
-
-        Array.prototype.map = function (callback) {
-            var i = this.length;
-            var found = [];
-            while (i--) {
-                if (callback.call(this, this[i])) {
-                    found.push(this[i]);
-                }
-            }
-            return found;
-        };
-
-        Array.prototype.contains = function (obj) {
-            var i = this.length;
-            while (i--) {
-                if (this[i] === obj) {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        Array.prototype.remove = function (element) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] === element) {
-                    this.splice(i, 1);
-                    break;
-                }
-            }
-        };
+       
 
         function World(width, height) {
             this.width = width;
@@ -73,7 +36,7 @@
             console.log(this.time);
         };
         
-        World.prototype.tick = function () {
+        World.prototype.step = function () {
             var start = new Date().getTime();
             var affected = [];
             this.cells.each(function(currentCell) {
@@ -96,6 +59,7 @@
             });
             var end = new Date().getTime();
             this.time = end - start;
+            return affected;
         };
 
         function Cell(world, x, y) {
@@ -106,26 +70,16 @@
         }
 
         Cell.prototype.neighbours = function() {
-            var neighbourX, neighbourY, realX, realY;
+            var neighbourX, neighbourY;
             var found = [];
             neighbourX = this.x - 1;
             while (neighbourX <= this.x + 1) {
-                realX = neighbourX;
-                if (neighbourX === -1) {
-                    realX = this.world.height - 1;
-                } else if (neighbourX === this.world.height) {
-                    realX = 0;
-                }
                 neighbourY = this.y - 1;
                 while (neighbourY <= this.y + 1) {
-                    realY = neighbourY;
-                    if (neighbourY === -1) {
-                        realY = this.world.width - 1;
-                    } else if (neighbourY === this.world.width) {
-                        realY = 0;
-                    }
-                    if (realX !== this.x || realY !== this.y) {
-                        found.push(this.world.getCell(realX, realY));
+                    if (neighbourX !== -1 && neighbourX !== this.world.height &&
+                        neighbourY !== -1 && neighbourY !== this.world.width &&
+                        (neighbourX !== this.x || neighbourY !== this.y)) {
+                        found.push(this.world.getCell(neighbourX, neighbourY));
                     }
                     neighbourY++;
                 }
@@ -134,7 +88,11 @@
             return found;
         };
 
-        Cell.prototype.liveNeighbours = function() {
+        Cell.prototype.liveNeighbours = function () {
+            var arr = this.neighbours();
+            if (arr.length === 8 && arr[7] === undefined) {
+                debugger;
+            }
             return this.neighbours().map(function(cell) {
                 return cell.isLive();
             });
@@ -162,18 +120,16 @@
         };
 
         var generation = 0,
-            world = new World(constants.ROWS, constants.COLUMNS),
-            step = function() {
-                world.step();
+            world = new World(constants.COLUMNS, constants.ROWS),
+            step = function () {
                 generation++;
+                return world.step();
             };
-
         
         return {
             step: step,
             getCell: function(x, y) {
                 return world.getCell(x, y);
             }
-            
         };
 });
