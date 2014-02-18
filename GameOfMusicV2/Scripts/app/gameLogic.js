@@ -1,9 +1,5 @@
 ﻿define('gameLogic',
     ['constants'], function (constants) {
-             
-                     
-       
-
         function World(width, height) {
             this.width = width;
             this.height = height;
@@ -13,16 +9,15 @@
 
             this.cells = [];
             while (i--) {
-                x = Math.floor(i / width);
-                y = i - (x * width);
+                y = Math.floor(i / width);
+                x = i - (y * width);
                 var cell = new Cell(this, x, y);
-                cell.dead = Math.random() < 0.7;
                 this.cells.unshift(cell);
             }
         }
 
         World.prototype.getCell = function(x, y) {
-            return this.cells[(x * this.width) + y];
+            return this.cells[(y * this.width) + x];
         };
 
         World.prototype.printState = function() {
@@ -76,8 +71,8 @@
             while (neighbourX <= this.x + 1) {
                 neighbourY = this.y - 1;
                 while (neighbourY <= this.y + 1) {
-                    if (neighbourX !== -1 && neighbourX !== this.world.height &&
-                        neighbourY !== -1 && neighbourY !== this.world.width &&
+                    if (neighbourX !== -1 && neighbourX !== this.world.width &&
+                        neighbourY !== -1 && neighbourY !== this.world.height &&
                         (neighbourX !== this.x || neighbourY !== this.y)) {
                         found.push(this.world.getCell(neighbourX, neighbourY));
                     }
@@ -124,12 +119,20 @@
             step = function () {
                 generation++;
                 return world.step();
+            },
+            clear = function() {
+                for (var y = 0; y < constants.ROWS; y++) {
+                    for (var x = 0; x < constants.COLUMNS; x++) {
+                        world.getCell(x, y).dead = true;
+                    }
+                }
             };
         
         return {
             step: step,
             getCell: function(x, y) {
                 return world.getCell(x, y);
-            }
+            },
+            clear: clear
         };
 });
