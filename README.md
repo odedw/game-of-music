@@ -2,6 +2,8 @@
 
 A musical experiment based on Conway's Game of Life.
 
+![Game of Music](http://d3j5vwomefv46c.cloudfront.net/photos/large/839441196.gif)
+
 ## License
 
 All libraries code is licensed under the corresponding library's license.
