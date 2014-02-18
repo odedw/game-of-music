@@ -1,10 +1,12 @@
 ﻿define('gameManager',
-    ['createjs','constants','gameLogic'], function(createjs,constants,gameLogic) {
+    ['createjs', 'constants', 'gameLogic', 'assetManager'], function (createjs, constants, gameLogic, assetManager) {
         var canvasWidth, canvasHeight, stage, cellHeight, cellWidth,
-            boardContainer,
+            boardContainer, columnIndicator,
             keysDown = {},
-            timeSinceLastStep = 0, isRunning = false,
+            timeSinceLastStep = 0, isRunning = false, currentColumn = 0,
             grid = [],
+            bpm = 120, initialTimeForColumnStep = 60000 / (4 * bpm)-5, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            
             isMouseDown = false, mouseDownStartState = false, //true for dead
             init = function () {
                 //create stage
@@ -19,13 +21,19 @@
                 createjs.Ticker.addEventListener("tick", tick);
                 
                 setupKeys();
-                
-                initializeGraphics();
+
+                assetManager.loadCompleteEvent.add(function () {
+                    initializeGraphics();
+                });
+                assetManager.loadAssets();
+
             },
             initializeGraphics = function () {
                 cellWidth = (canvasWidth - constants.CELL_MARGIN * (constants.COLUMNS - 1)) / constants.COLUMNS;
                 cellHeight = (canvasHeight - constants.CELL_MARGIN * (constants.ROWS - 1)) / constants.ROWS;
-                console.log(cellWidth+','+cellHeight);
+
+                
+                
                 boardContainer = new createjs.Container();
                 for (var y = 0; y < constants.ROWS; y++) {
                     var arr = [];
@@ -51,6 +59,12 @@
                 stage.addEventListener("stagemouseup", function (event) {
                     isMouseDown = false;
                 });
+                
+                columnIndicator = new createjs.Shape();
+                columnIndicator.graphics.f('#00FF00').drawRect(0, 0, cellWidth, canvasHeight);
+                columnIndicator.x = columnIndicator.y = 0;
+                columnIndicator.alpha = 0.3;
+                stage.addChild(columnIndicator);
             },
             createCell = function (x, y, isDead) {
                 var yPos = y * cellHeight + y * constants.CELL_MARGIN;
@@ -100,7 +114,7 @@
                         isRunning = !isRunning;
                     }
                     else if (e.keyCode == constants.KEY_R) {
-                        clear();
+                                                clear();
                     }
                 }
             },
@@ -110,15 +124,41 @@
             tick = function (evt) {
                 if (isRunning) {
                     timeSinceLastStep += evt.delta;
-                    if (timeSinceLastStep > 250) {
+                    timeSinceLastBeat += evt.delta;
+                    if (timeSinceLastStep > timeForColumnStep) {
+                        timeForColumnStep = initialTimeForColumnStep - (timeSinceLastStep - initialTimeForColumnStep);
+//                        console.log(timeSinceLastStep + ' -> ' + timeForColumnStep);
                         timeSinceLastStep = 0;
-                        var affectedCells = gameLogic.step();
-                        affectedCells.each(function(currentCell) {
-                            paintSquare(grid[currentCell.y][currentCell.x], currentCell.dead);
-                        });
+                        currentColumn++;
+                        if (currentColumn == constants.COLUMNS) { //step life
+                            var affectedCells = gameLogic.step();
+                            affectedCells.each(function (currentCell) {
+                                paintSquare(grid[currentCell.y][currentCell.x], currentCell.dead);
+                            });
+                            currentColumn = 0;
+                           
+                        }
+                        moveColumn();
+                        
+                        
+                        if (currentColumn % 4 === 0) {
+                            assetManager.playSound('click');
+                            if (beats == 0)
+                                average = timeSinceLastBeat;
+                            else {
+                                average = (average * beats) / (beats + 1) + timeSinceLastBeat / (beats + 1);
+                            }
+                            timeSinceLastBeat = 0;
+                            beats++;
+                            console.log(average);
+                            
+                        }
                     }
                 }
                 stage.update();
+            },
+            moveColumn = function() {
+                columnIndicator.x = grid[0][currentColumn].x;
             };
         return {
             init: init

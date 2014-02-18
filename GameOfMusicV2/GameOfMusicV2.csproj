@@ -136,14 +136,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\analytics.js" />
+    <Content Include="Scripts\app\assetManager.js" />
     <Content Include="Scripts\app\bootstrapper.js" />
     <Content Include="Scripts\app\constants.js" />
     <Content Include="Scripts\app\gameLogic.js" />
     <Content Include="Scripts\app\gameManager.js" />
+    <Content Include="Scripts\app\soundPlayer.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Site.less" />
+    <Content Include="Content\Sounds\click.ogg" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
