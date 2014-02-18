@@ -5,7 +5,7 @@
             keysDown = {},
             timeSinceLastStep = 0, isRunning = false, currentColumn = 0,
             grid = [],
-            bpm = 120, initialTimeForColumnStep = 60000 / (4 * bpm)-5, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            bpm = 120, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             
             isMouseDown = false, mouseDownStartState = false, //true for dead
             init = function () {
