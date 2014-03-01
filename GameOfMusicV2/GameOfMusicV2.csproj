@@ -130,7 +130,9 @@
     <Content Include="Content\Images\soundcloud.png" />
     <Content Include="Content\Images\twitter.png" />
     <Content Include="Content\Images\youtube.png" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
     <Content Include="Content\Site.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -147,6 +149,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Site.less" />
     <Content Include="Content\Sounds\click.ogg" />
+    <Content Include="Content\Site.css.map">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

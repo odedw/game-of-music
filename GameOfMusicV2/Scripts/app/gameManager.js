@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['createjs', 'constants', 'gameLogic', 'assetManager'], function (createjs, constants, gameLogic, assetManager) {
+    ['createjs', 'constants', 'gameLogic', 'assetManager'], function (createjs, c, gameLogic, assetManager) {
         var canvasWidth, canvasHeight, stage, cellHeight, cellWidth,
             boardContainer, columnIndicator,
             keysDown = {},
@@ -17,7 +17,7 @@
                 stage.enableMouseOver(50);
 
                 createjs.Ticker.requestRAF = true;
-                createjs.Ticker.setFPS(constants.FPS);
+                createjs.Ticker.setFPS(c.FPS);
                 createjs.Ticker.addEventListener("tick", tick);
                 
                 setupKeys();
@@ -29,15 +29,15 @@
 
             },
             initializeGraphics = function () {
-                cellWidth = (canvasWidth - constants.CELL_MARGIN * (constants.COLUMNS - 1)) / constants.COLUMNS;
-                cellHeight = (canvasHeight - constants.CELL_MARGIN * (constants.ROWS - 1)) / constants.ROWS;
+                cellWidth = (canvasWidth - c.CELL_MARGIN * (c.COLUMNS - 1)) / c.COLUMNS;
+                cellHeight = (canvasHeight - c.CELL_MARGIN * (c.ROWS - 1)) / c.ROWS;
 
                 
                 
                 boardContainer = new createjs.Container();
-                for (var y = 0; y < constants.ROWS; y++) {
+                for (var y = 0; y < c.ROWS; y++) {
                     var arr = [];
-                    for (var x = 0; x < constants.COLUMNS; x++) {
+                    for (var x = 0; x < c.COLUMNS; x++) {
                         var shape = createCell(x, y, gameLogic.getCell(x, y).dead);
                         arr.push(shape);
                         boardContainer.addChild(shape);
@@ -47,8 +47,8 @@
                 stage.addChild(boardContainer);
                 
                 stage.addEventListener("stagemousedown", function (event) {
-                    var x = Math.floor(event.rawX / (cellWidth + constants.CELL_MARGIN)),
-                        y = Math.floor(event.rawY / (cellHeight + constants.CELL_MARGIN));
+                    var x = Math.floor(event.rawX / (cellWidth + c.CELL_MARGIN)),
+                        y = Math.floor(event.rawY / (cellHeight + c.CELL_MARGIN));
 
                     mouseDownStartState = !gameLogic.getCell(x, y).dead;
                     isMouseDown = true;
@@ -61,14 +61,18 @@
                 });
                 
                 columnIndicator = new createjs.Shape();
-                columnIndicator.graphics.f('#00FF00').drawRect(0, 0, cellWidth, canvasHeight);
+                
+                for (var i = 0; i < c.ROWS; i++) {
+                    columnIndicator.graphics.f('#00FF00').drawRect(0, i*cellHeight + i*c.CELL_MARGIN, cellWidth, cellHeight);
+                    columnIndicator.alpha = 0.0;
+                }
                 columnIndicator.x = columnIndicator.y = 0;
-                columnIndicator.alpha = 0.3;
+
                 stage.addChild(columnIndicator);
             },
             createCell = function (x, y, isDead) {
-                var yPos = y * cellHeight + y * constants.CELL_MARGIN;
-                var xPos = x * cellWidth + x * constants.CELL_MARGIN;
+                var yPos = y * cellHeight + y * c.CELL_MARGIN;
+                var xPos = x * cellWidth + x * c.CELL_MARGIN;
                 var shape = new createjs.Shape();
                 var shapeX = x, shapeY = y;
                 shape.enableMouseOver = true;
@@ -94,8 +98,8 @@
                 matchLogic();
             },
             matchLogic = function() {
-                for (var y = 0; y < constants.ROWS; y++) {
-                    for (var x = 0; x < constants.COLUMNS; x++) {
+                for (var y = 0; y < c.ROWS; y++) {
+                    for (var x = 0; x < c.COLUMNS; x++) {
                         paintSquare(grid[y][x], gameLogic.getCell(x, y));
                     }
                 }
@@ -110,10 +114,11 @@
             handleKeyDown = function (e) {
                 if (!keysDown[e.keyCode]) {
                     keysDown[e.keyCode] = true;
-                    if (e.keyCode == constants.KEY_SPACE) {
+                    if (e.keyCode == c.KEY_SPACE) {
                         isRunning = !isRunning;
+                        columnIndicator.alpha = isRunning ? 0.5 : 0;
                     }
-                    else if (e.keyCode == constants.KEY_R) {
+                    else if (e.keyCode == c.KEY_R) {
                                                 clear();
                     }
                 }
@@ -130,7 +135,7 @@
 //                        console.log(timeSinceLastStep + ' -> ' + timeForColumnStep);
                         timeSinceLastStep = 0;
                         currentColumn++;
-                        if (currentColumn == constants.COLUMNS) { //step life
+                        if (currentColumn == c.COLUMNS) { //step life
                             var affectedCells = gameLogic.step();
                             affectedCells.each(function (currentCell) {
                                 paintSquare(grid[currentCell.y][currentCell.x], currentCell.dead);
