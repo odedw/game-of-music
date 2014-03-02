@@ -126,6 +126,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\github.png" />
+    <Content Include="Content\Images\lock.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\soundcloud.png" />
     <Content Include="Content\Images\twitter.png" />
@@ -148,10 +149,17 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\Site.less" />
-    <Content Include="Content\Sounds\click.ogg" />
     <Content Include="Content\Site.css.map">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
+    <Content Include="Content\Sounds\8bit-hh.ogg" />
+    <Content Include="Content\Sounds\8bit-kick.ogg" />
+    <Content Include="Content\Sounds\8bit-snare.ogg" />
+    <Content Include="Content\Sounds\8bit-special.ogg" />
+    <Content Include="Content\Sounds\rock-hh.ogg" />
+    <Content Include="Content\Sounds\rock-kick.ogg" />
+    <Content Include="Content\Sounds\rock-snare.ogg" />
+    <Content Include="Content\Sounds\rock-special.ogg" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1,18 +1,21 @@
 ﻿define('gameManager',
     ['createjs', 'constants', 'gameLogic', 'assetManager'], function (createjs, c, gameLogic, assetManager) {
-        var canvasWidth, canvasHeight, stage, cellHeight, cellWidth,
+        var canvasId = '#game-canvas', canvasWidth, canvasHeight, stage, cellHeight, cellWidth,
             boardContainer, columnIndicator,
             keysDown = {},
             timeSinceLastStep = 0, isRunning = false, currentColumn = 0,
             grid = [],
             bpm = 120, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             
-            isMouseDown = false, mouseDownStartState = false, //true for dead
+            isLeftMouseDown = false, leftMouseDownStartState = false, //rue for dead
+            isRightMouseDown = false, rightMouseDownStart = false, //lock / unlock
             init = function () {
+                $('body').on('contextmenu', canvasId, function (e) { return false; });
+                
                 //create stage
-                canvasWidth = $('#game-canvas').width();
-                canvasHeight = $('#game-canvas').height();         
-                stage = new createjs.Stage("game-canvas");
+                canvasWidth = $(canvasId).width();
+                canvasHeight = $(canvasId).height();
+                stage = new createjs.Stage(canvasId.substr(1));
                 stage.snapPixelsEnabled = true;
                 stage.enableMouseOver(50);
 
@@ -38,9 +41,9 @@
                 for (var y = 0; y < c.ROWS; y++) {
                     var arr = [];
                     for (var x = 0; x < c.COLUMNS; x++) {
-                        var shape = createCell(x, y, gameLogic.getCell(x, y).dead);
-                        arr.push(shape);
-                        boardContainer.addChild(shape);
+                        var cellContainer = createCell(x, y, gameLogic.getCell(x, y).dead);
+                        arr.push(cellContainer);
+                        boardContainer.addChild(cellContainer);
                     }
                     grid.push(arr);
                 }
@@ -50,14 +53,23 @@
                     var x = Math.floor(event.rawX / (cellWidth + c.CELL_MARGIN)),
                         y = Math.floor(event.rawY / (cellHeight + c.CELL_MARGIN));
 
-                    mouseDownStartState = !gameLogic.getCell(x, y).dead;
-                    isMouseDown = true;
-                    gameLogic.getCell(x, y).dead = mouseDownStartState;
-                    paintSquare(grid[y][x], mouseDownStartState);
+                    if (event.nativeEvent.button === 0) { //left button
+                        leftMouseDownStartState = !gameLogic.getCell(x, y).dead;
+                        gameLogic.getCell(x, y).dead = leftMouseDownStartState;
+                        paintSquare(grid[y][x], leftMouseDownStartState);
+                        isLeftMouseDown = true;
+
+                    } else if (event.nativeEvent.button === 2) {
+                        rightMouseDownStart = !gameLogic.getCell(x, y).locked;
+                        gameLogic.getCell(x, y).locked = rightMouseDownStart;
+                        setLockVisibility(grid[y][x], rightMouseDownStart);
+                        isRightMouseDown = true;
+                    }
+                    
                     
                 });
                 stage.addEventListener("stagemouseup", function (event) {
-                    isMouseDown = false;
+                    isLeftMouseDown = isRightMouseDown = false;
                 });
                 
                 columnIndicator = new createjs.Shape();
@@ -73,25 +85,37 @@
             createCell = function (x, y, isDead) {
                 var yPos = y * cellHeight + y * c.CELL_MARGIN;
                 var xPos = x * cellWidth + x * c.CELL_MARGIN;
+                var cellContainer = new createjs.Container();
                 var shape = new createjs.Shape();
+                cellContainer.addChild(shape);
+                cellContainer.square = shape;
+                var lockImg = new createjs.Bitmap(assetManager.images['lock']);
+                lockImg.x = cellWidth / 2 - 3.5;
+                lockImg.y = cellHeight / 2 - 4;
+                lockImg.alpha = 0;
+                cellContainer.lock = lockImg;
+                cellContainer.addChild(lockImg);
                 var shapeX = x, shapeY = y;
-                shape.enableMouseOver = true;
-                shape.addEventListener("mouseover", function (event) {
-                    if (isMouseDown) {
-                        gameLogic.getCell(shapeX, shapeY).dead = mouseDownStartState;
-                        paintSquare(shape, mouseDownStartState);
+                cellContainer.enableMouseOver = true;
+                cellContainer.addEventListener("mouseover", function (event) {
+                    if (isLeftMouseDown) {
+                        gameLogic.getCell(shapeX, shapeY).dead = leftMouseDownStartState;
+                        paintSquare(cellContainer, leftMouseDownStartState);
+                    } else if (isRightMouseDown) {
+                        gameLogic.getCell(shapeX, shapeY).locked = rightMouseDownStart;
+                        setLockVisibility(cellContainer, rightMouseDownStart);
                     } else {
                         shape.graphics.f(gameLogic.getCell(shapeX, shapeY).dead ? '#CCCCCC' : '#777777').drawRect(0, 0, cellWidth, cellHeight);
                     }
                 });
-                shape.addEventListener("mouseout", function (event) {
-                    paintSquare(shape, gameLogic.getCell(shapeX, shapeY).dead);
+                cellContainer.addEventListener("mouseout", function (event) {
+                    paintSquare(cellContainer, gameLogic.getCell(shapeX, shapeY).dead);
                 });
                 
-                shape.x = xPos;
-                shape.y = yPos;
-                paintSquare(shape, isDead);
-                return shape;
+                cellContainer.x = xPos;
+                cellContainer.y = yPos;
+                paintSquare(cellContainer, isDead);
+                return cellContainer;
             },
             clear=function() {
                 gameLogic.clear();
@@ -100,12 +124,17 @@
             matchLogic = function() {
                 for (var y = 0; y < c.ROWS; y++) {
                     for (var x = 0; x < c.COLUMNS; x++) {
-                        paintSquare(grid[y][x], gameLogic.getCell(x, y));
+                        var cell = gameLogic.getCell(x, y);
+                        paintSquare(grid[y][x], cell.dead);
+                        setLockVisibility(grid[y][x], cell.locked);
                     }
                 }
             },
-            paintSquare = function (square, isDead) {
-                square.graphics.f(isDead ? 'black' : '#FFF8DC').drawRect(0, 0, cellWidth, cellHeight);
+            paintSquare = function (cellContainer, isDead) {
+                cellContainer.square.graphics.f(isDead ? 'black' : '#FFF8DC').drawRect(0, 0, cellWidth, cellHeight);
+            },
+            setLockVisibility = function(cellContainer, isLocked) {
+                cellContainer.lock.alpha = isLocked ? 1 : 0;
             },
             setupKeys = function () {
                 document.onkeydown = handleKeyDown;

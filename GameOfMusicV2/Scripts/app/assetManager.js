@@ -6,10 +6,17 @@
             loadCompleteEvent = $.Callbacks(),
             manifest = [
                 //images
-//                { src: "/Content/Images/cash_register.png", id: "cashRegister" },
+                { src: "/Content/Images/lock.png", id: "lock" },
 
                 //sounds
-                { src: "/Content/Sounds/click.ogg", id: 'click' }
+                { src: "/Content/Sounds/8bit-kick.ogg", id: '8bit-kick' },
+                { src: "/Content/Sounds/8bit-snare.ogg", id: '8bit-snare' },
+                { src: "/Content/Sounds/8bit-special.ogg", id: '8bit-special' },
+                { src: "/Content/Sounds/8bit-hh.ogg", id: '8bit-hh' },
+                { src: "/Content/Sounds/rock-kick.ogg", id: 'rock-kick' },
+                { src: "/Content/Sounds/rock-snare.ogg", id: 'rock-snare' },
+                { src: "/Content/Sounds/rock-special.ogg", id: 'rock-special' },
+                { src: "/Content/Sounds/rock-hh.ogg", id: 'rock-hh' }
             ],
             loadAssets = function () {
                 queue = new createjs.LoadQueue();

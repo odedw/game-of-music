@@ -34,7 +34,10 @@
         World.prototype.step = function () {
             var start = new Date().getTime();
             var affected = [];
-            this.cells.each(function(currentCell) {
+            this.cells.each(function (currentCell) {
+                if (currentCell.locked)
+                    return;
+                
                 var liveNeighboursCount = currentCell.liveNeighbours().length;
                 if (currentCell.isLive()) {
                     if (liveNeighboursCount < 2) {
@@ -62,6 +65,7 @@
             this.x = x;
             this.y = y;
             this.dead = true;
+            this.locked = false;
         }
 
         Cell.prototype.neighbours = function() {
@@ -123,7 +127,10 @@
             clear = function() {
                 for (var y = 0; y < constants.ROWS; y++) {
                     for (var x = 0; x < constants.COLUMNS; x++) {
-                        world.getCell(x, y).dead = true;
+                        var cell = world.getCell(x, y);
+                        cell.dead = true;
+                        cell.locked = false;
+
                     }
                 }
             };
