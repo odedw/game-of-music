@@ -90,8 +90,8 @@
                 cellContainer.addChild(shape);
                 cellContainer.square = shape;
                 var lockImg = new createjs.Bitmap(assetManager.images['lock']);
-                lockImg.x = cellWidth / 2 - 3.5;
-                lockImg.y = cellHeight / 2 - 4;
+                lockImg.x = cellWidth / 2 - 8;
+                lockImg.y = cellHeight / 2 - 8;
                 lockImg.alpha = 0;
                 cellContainer.lock = lockImg;
                 cellContainer.addChild(lockImg);
