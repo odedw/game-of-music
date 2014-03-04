@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['createjs', 'constants', 'gameLogic', 'assetManager'], function (createjs, c, gameLogic, assetManager) {
+    ['createjs', 'constants', 'gameLogic', 'assetManager', 'soundPlayer'], function (createjs, c, gameLogic, assetManager, sp) {
         var canvasId = '#game-canvas', canvasWidth, canvasHeight, stage, cellHeight, cellWidth,
             boardContainer, columnIndicator,
             keysDown = {},
@@ -184,9 +184,18 @@
                             }
                             timeSinceLastBeat = 0;
                             beats++;
-                            console.log(average);
-                            
+                            //console.log(average);
                         }
+
+                        var rowsAlive = [];
+                        for (var i = 0; i < c.ROWS; i++) {
+                            if (!gameLogic.getCell(currentColumn, i).dead) {
+                                rowsAlive.push(i);
+                            }
+                        }
+                        //if (rowsAlive.length > 0)
+                            //console.log(rowsAlive);
+                        sp.play(rowsAlive);
                     }
                 }
                 stage.update();

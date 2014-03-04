@@ -30,7 +30,9 @@
                 //You could store all your images in object to call them easily.  
                 if (o.item.type === "image") {
                     images[o.item.id] = o.result;
-
+                }
+                else if (o.item.type === "sound") {
+                    //sounds[o.item.id] = o.result;
                 }
             },
             handleProgress = function (event) {
