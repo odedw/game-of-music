@@ -47,7 +47,7 @@
                     keysDown[e.keyCode] = true;
                     if (e.keyCode == c.KEY_SPACE) {
                         isRunning = !isRunning;
-                        gameView.setColumnIndicatorVisibility(isRunning);
+                        gameView.setColumnIndicatorVisibility(isRunning, currentColumn);
                     }
                     else if (e.keyCode == c.KEY_R) {
                         clear();
