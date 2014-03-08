@@ -16,7 +16,7 @@
             play = function(sounds) {
                 for (var i = 0; i < sounds.length; i++) {
                     assetManager.playSound(currentSoundBank + '-' + soundNames[sounds[i]]);
-                    console.log(currentSoundBank + '-' + soundNames[sounds[i]]);
+                    //console.log(currentSoundBank + '-' + soundNames[sounds[i]]);
                 }
             };
 
