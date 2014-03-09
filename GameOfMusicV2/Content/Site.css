@@ -35,7 +35,7 @@ input[type="checkbox"].input-validation-error {
 }
 .container {
   position: relative;
-  margin-top: 0px;
+  margin-top: 0;
 }
 .container #game-container {
   height: 300px;
