@@ -26,9 +26,7 @@ namespace GameOfMusicV2
 
             bundles.Add(new ScriptBundle("~/bundles/jsextlibs").Include(
                 "~/Scripts/require.js",
-                //                "~/Scripts/plugins.js",
-                "~/Scripts/simpleInheritence.js",
-                "~/Scripts/Box2dWeb-2.1.a.3.js"
+                "~/Scripts/buffer-loader.js"
                                    ));
 
             bundles.Add(new ScriptBundle("~/bundles/jsapplibs")

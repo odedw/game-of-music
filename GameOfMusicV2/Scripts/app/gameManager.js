@@ -50,6 +50,18 @@
                     else if (e.keyCode == c.KEY_R) {
                         clear();
                     }
+                    else if (e.keyCode == c.KEY_A) {
+                        sp.play(0);
+                    }
+                    else if (e.keyCode == c.KEY_S) {
+                        sp.play(1);
+                    }
+                    else if (e.keyCode == c.KEY_D) {
+                        sp.play(2);
+                    }
+                    else if (e.keyCode == c.KEY_F) {
+                        sp.play(3);
+                    }
                 }
             },
             handleKeyUp = function (e) {

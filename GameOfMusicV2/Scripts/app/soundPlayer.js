@@ -1,5 +1,5 @@
 ﻿define('soundPlayer',
-    ['createjs', 'assetManager'], function (createjs,assetManager) {
+    ['assetManager'], function (assetManager) {
         var soundNames = [
             'kick',
             'snare',
@@ -12,13 +12,49 @@
             'G',
             'Bb'
         ].reverse(),
+            context, soundBuffers,
             currentSoundBank = '8bit',
-            play = function(sounds) {
-                for (var i = 0; i < sounds.length; i++) {
-                    assetManager.playSound(currentSoundBank + '-' + soundNames[sounds[i]]);
+            
+            play = function(i) {
+                //for (var i = 0; i < sounds.length; i++) {
+                    //assetManager.playSound(currentSoundBank + '-' + soundNames[sounds[i]]);
                     //console.log(currentSoundBank + '-' + soundNames[sounds[i]]);
-                }
+                //}
+                playSound(i, 0);
+            },
+            init = function() {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                context = new AudioContext();
+
+                var bufferLoader = new BufferLoader(
+                    context,
+                    [
+                        '/Content/Sounds/8bit-kick.ogg',
+                        '/Content/Sounds/8bit-snare.ogg',
+                        '/Content/Sounds/8bit-special.ogg',
+                        '/Content/Sounds/8bit-hh.ogg'
+                        //'/Content/Sounds/rock-kick.ogg',
+                        //'/Content/Sounds/rock-snare.ogg',
+                        //'/Content/Sounds/rock-special.ogg',
+                        //'/Content/Sounds/rock-hh.ogg'
+                    ].reverse(),
+                    finishedLoading
+                );
+
+                bufferLoader.load();
+            },
+            finishedLoading = function(bufferList) {
+                // Create two sources and play them both together.
+                soundBuffers = bufferList;
+            },
+            playSound = function (index, time) {
+                var source = context.createBufferSource();
+                source.buffer = soundBuffers[index];
+                source.connect(context.destination);
+                source.start(time);
             };
+
+        init();
 
         return {
             play: play
