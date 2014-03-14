@@ -6,11 +6,12 @@
             bpm = 100, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0,     // when the next note is due.
             current16thNote,        // What note is currently last scheduled?
+            notesInQueue = [],
             lookahead = 25.0,       // How frequently to call scheduling function 
             //(in milliseconds)
             scheduleAheadTime = 0.1,    // How far ahead to schedule audio (sec)
             timerId = 0,            // setInterval identifier.
-            isPlaying,
+            last16thNoteDrawn = -1, // the last "box" we drew on the screen
             init = function () {
                 gameView.init(function(x,y) {
                     return gameLogic.getCell(x, y);
@@ -26,7 +27,7 @@
                     gameView.initializeGraphics();
                 });
                 assetManager.loadAssets();
-                tick(0);
+                tick();
             },
             clear = function() {
                 gameLogic.clear();
@@ -74,50 +75,33 @@
             handleKeyUp = function (e) {
                 keysDown[e.keyCode] = false;
             },
-            tick = function (currentTimestamp) {
-                var delta = currentTimestamp - lastTimestamp;
-                if (isRunning) {
-                    timeSinceLastStep += delta;
-                    timeSinceLastBeat += delta;
-                    if (timeSinceLastStep > initialTimeForColumnStep){//timeForColumnStep) {
-                        //timeForColumnStep = initialTimeForColumnStep - (timeSinceLastStep - initialTimeForColumnStep);
-                        //console.log(timeSinceLastStep + ' -> ' + timeForColumnStep);
-                        console.log(timeSinceLastStep);
-                        
-                        timeSinceLastStep = 0;
-                        currentColumn++;
-                        if (currentColumn == c.COLUMNS) { //step life
-                            var affectedCells = gameLogic.step();
-                            affectedCells.each(function (currentCell) {
-                                gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
-                            });
-                            currentColumn = 0;
-                           
-                        }
-                        gameView.moveColumn(currentColumn);
-                        
-                        //if (currentColumn % 4 === 0) {
-                        //    if (beats == 0)
-                        //        average = timeSinceLastBeat;
-                        //    else {
-                        //        average = (average * beats) / (beats + 1) + timeSinceLastBeat / (beats + 1);
-                        //    }
-                        //    timeSinceLastBeat = 0;
-                        //    beats++;
-                        //    console.log(average);
-                        //}
-                        var rowsAlive = [];
-                        for (var i = 0; i < c.ROWS; i++) {
-                            if (!gameLogic.getCell(currentColumn, i).dead) {
-                                rowsAlive.push(i);
-                            }
-                        }
-                        //sp.play(rowsAlive);
-                    }
+        tick = function () {
+            var currentNote = last16thNoteDrawn;
+            var currentTime = sp.context.currentTime;
+
+            while (notesInQueue.length && notesInQueue[0].time < currentTime) {
+                currentNote = notesInQueue[0].note;
+                notesInQueue.splice(0,1);   // remove note from queue
+            }
+
+            // We only need to draw if the note has moved.
+            if (last16thNoteDrawn != currentNote) {
+                gameView.moveColumn(currentNote);
+                if (currentNote == 0 && last16thNoteDrawn != -1) { //step life
+                    var affectedCells = gameLogic.step();
+                    affectedCells.each(function (currentCell) {
+                        gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
+                    });
                 }
-                lastTimestamp = currentTimestamp;
-                window.requestAnimationFrame(tick);
-            },
+                
+                last16thNoteDrawn = currentNote;
+            }
+
+            
+            
+            // set up to draw again
+            window.requestAnimationFrame(tick);
+        },
         //Sound scheduling
         nextNote = function () {
             // Advance current note and time by a 16th note...
@@ -132,7 +116,7 @@
         },
         scheduleNote = function (beatNumber, time) {
             // push the note on the queue, even if we're not playing.
-            //notesInQueue.push( { note: beatNumber, time: time } );
+            notesInQueue.push( { note: beatNumber, time: time } );
             var rowsAlive = [];
             for (var i = 0; i < c.ROWS; i++) {
                 if (!gameLogic.getCell(beatNumber, i).dead) {

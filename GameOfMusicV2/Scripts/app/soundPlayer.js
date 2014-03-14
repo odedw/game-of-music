@@ -51,6 +51,7 @@
             finishedLoading = function(bufferList) {
                 // Create two sources and play them both together.
                 soundBuffers = bufferList;
+                playSound(0, 0);
             },
             playSound = function (index, time) {
                 var source = context.createBufferSource();
