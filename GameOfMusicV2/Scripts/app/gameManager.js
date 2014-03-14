@@ -1,9 +1,9 @@
 ﻿define('gameManager',
-    ['createjs', 'constants', 'gameLogic', 'assetManager', 'soundPlayer', 'gameView'], function (createjs, c, gameLogic, assetManager, sp, gameView) {
+    ['constants', 'gameLogic', 'assetManager', 'soundPlayer', 'gameView'], function (c, gameLogic, assetManager, sp, gameView) {
         var 
             keysDown = {},
-            timeSinceLastStep = 0, isRunning = false, currentColumn = 0,
-            bpm = 120, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            timeSinceLastStep = 0, isRunning = false, currentColumn = 0, lastTimestamp = 0,
+            bpm = 100, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             
             init = function () {
                 gameView.init(function(x,y) {
@@ -15,14 +15,12 @@
                 gameView.cellLockStateChanged.add(function (x, y, locked) {
                     gameLogic.getCell(x, y).locked = locked;
                 });
-                createjs.Ticker.requestRAF = true;
-                createjs.Ticker.setFPS(c.FPS);
-                createjs.Ticker.addEventListener("tick", tick);
                 setupKeys();
                 assetManager.loadCompleteEvent.add(function () {
                     gameView.initializeGraphics();
                 });
                 assetManager.loadAssets();
+                tick(0);
             },
             clear = function() {
                 gameLogic.clear();
@@ -57,13 +55,16 @@
             handleKeyUp = function (e) {
                 keysDown[e.keyCode] = false;
             },
-            tick = function (evt) {
+            tick = function (currentTimestamp) {
+                var delta = currentTimestamp - lastTimestamp;
                 if (isRunning) {
-                    timeSinceLastStep += evt.delta;
-                    timeSinceLastBeat += evt.delta;
-                    if (timeSinceLastStep > timeForColumnStep) {
-                        timeForColumnStep = initialTimeForColumnStep - (timeSinceLastStep - initialTimeForColumnStep);
-//                        console.log(timeSinceLastStep + ' -> ' + timeForColumnStep);
+                    timeSinceLastStep += delta;
+                    timeSinceLastBeat += delta;
+                    if (timeSinceLastStep > initialTimeForColumnStep){//timeForColumnStep) {
+                        //timeForColumnStep = initialTimeForColumnStep - (timeSinceLastStep - initialTimeForColumnStep);
+                        //console.log(timeSinceLastStep + ' -> ' + timeForColumnStep);
+                        console.log(timeSinceLastStep);
+                        
                         timeSinceLastStep = 0;
                         currentColumn++;
                         if (currentColumn == c.COLUMNS) { //step life
@@ -76,27 +77,27 @@
                         }
                         gameView.moveColumn(currentColumn);
                         
-                        if (currentColumn % 4 === 0) {
-                            if (beats == 0)
-                                average = timeSinceLastBeat;
-                            else {
-                                average = (average * beats) / (beats + 1) + timeSinceLastBeat / (beats + 1);
-                            }
-                            timeSinceLastBeat = 0;
-                            beats++;
-                            //console.log(average);
-                        }
-
+                        //if (currentColumn % 4 === 0) {
+                        //    if (beats == 0)
+                        //        average = timeSinceLastBeat;
+                        //    else {
+                        //        average = (average * beats) / (beats + 1) + timeSinceLastBeat / (beats + 1);
+                        //    }
+                        //    timeSinceLastBeat = 0;
+                        //    beats++;
+                        //    console.log(average);
+                        //}
                         var rowsAlive = [];
                         for (var i = 0; i < c.ROWS; i++) {
                             if (!gameLogic.getCell(currentColumn, i).dead) {
                                 rowsAlive.push(i);
                             }
                         }
-                        sp.play(rowsAlive);
+                        //sp.play(rowsAlive);
                     }
                 }
-                gameView.tick(evt);
+                lastTimestamp = currentTimestamp;
+                window.requestAnimationFrame(tick);
             };
         return {
             init: init

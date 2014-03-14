@@ -1,9 +1,6 @@
 ﻿define('gameView',
-    ['constants', 'createjs', 'assetManager'], function (c, createjs, assetManager) {
-        var containerId = '#game-container', containerWidth, containerHeight, //stage,
-            cellHeight, cellWidth,
-            //boardContainer,
-            columnIndicator,
+    ['constants', 'assetManager'], function (c, assetManager) {
+        var containerId = '#game-container', 
             grid = [],
             leftMouseDownStartState = false, //true for dead
             rightMouseDownStart = false, //lock / unlock
@@ -99,8 +96,6 @@
                 } else {
                     $('td').removeClass('playing');
                 }
-            },
-            tick = function (evt) {
             };
 
         return {
@@ -112,6 +107,5 @@
             setColumnIndicatorVisibility: setColumnIndicatorVisibility,
             cellLockStateChanged: cellLockStateChanged,
             cellLivenessChanged: cellLivenessChanged,
-            tick: tick,
         };
     });
