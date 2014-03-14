@@ -15,12 +15,11 @@
             context, soundBuffers,
             currentSoundBank = '8bit',
             
-            play = function(i) {
-                //for (var i = 0; i < sounds.length; i++) {
-                    //assetManager.playSound(currentSoundBank + '-' + soundNames[sounds[i]]);
-                    //console.log(currentSoundBank + '-' + soundNames[sounds[i]]);
-                //}
-                playSound(i, 0);
+            play = function(sounds, time) {
+                for (var i = 0; i < sounds.length; i++) {
+                    if (sounds[i] > 5)
+                    playSound(sounds[i], time);
+                }
             },
             init = function() {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -32,6 +31,12 @@
                         '/Content/Sounds/8bit-kick.ogg',
                         '/Content/Sounds/8bit-snare.ogg',
                         '/Content/Sounds/8bit-special.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
+                        '/Content/Sounds/8bit-hh.ogg',
                         '/Content/Sounds/8bit-hh.ogg'
                         //'/Content/Sounds/rock-kick.ogg',
                         //'/Content/Sounds/rock-snare.ogg',
@@ -57,6 +62,7 @@
         init();
 
         return {
-            play: play
+            play: play,
+            context: context
         };
     });
