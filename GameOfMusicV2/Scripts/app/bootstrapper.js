@@ -39,6 +39,16 @@
     }
     
     function runShims() {
+        Math.range = function(start, end) {
+            var arr = [];
+            if (end < start)
+                return arr;
+            for (var i = start; i <= end; i++) {
+                arr.push(i);
+            }
+            return arr;
+        };
+
         Array.prototype.each = function (callback) {
             var i = 0;
             while (i < this.length) {
