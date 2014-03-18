@@ -145,7 +145,7 @@
     <Content Include="Scripts\app\gameLogic.js" />
     <Content Include="Scripts\app\gameManager.js" />
     <Content Include="Scripts\app\gameView.js" />
-    <Content Include="Scripts\app\soundPlayer.js" />
+    <Content Include="Scripts\app\soundManager.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

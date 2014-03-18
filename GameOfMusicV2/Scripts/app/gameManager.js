@@ -1,17 +1,20 @@
 ﻿define('gameManager',
-    ['constants', 'gameLogic', 'assetManager', 'soundPlayer', 'gameView'], function (c, gameLogic, assetManager, sp, gameView) {
-        var 
-            keysDown = {},
+    ['constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (c, gameLogic, assetManager, sm, gameView) {
+        var keysDown = {},
             timeSinceLastStep = 0, isRunning = false, currentColumn = 0, lastTimestamp = 0,
-            bpm = 100, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
-            nextNoteTime = 0.0,     // when the next note is due.
-            current16thNote,        // What note is currently last scheduled?
+            bpm = 123, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            nextNoteTime = 0.0, // when the next note is due.
+            current16thNote, // What note is currently last scheduled?
             notesInQueue = [],
-            lookahead = 25.0,       // How frequently to call scheduling function 
+            lookahead = 25.0, // How frequently to call scheduling function 
             //(in milliseconds)
-            scheduleAheadTime = 0.1,    // How far ahead to schedule audio (sec)
-            timerId = 0,            // setInterval identifier.
+            scheduleAheadTime = 0.1, // How far ahead to schedule audio (sec)
+            timerId = 0, // setInterval identifier.
             last16thNoteDrawn = -1, // the last "box" we drew on the screen
+            song = {
+                chords: ['F7', 'F7', 'Cm', 'A#']
+            },
+            currentChord = 0,
             init = function () {
                 gameView.init(function(x,y) {
                     return gameLogic.getCell(x, y);
@@ -58,18 +61,6 @@
                     else if (e.keyCode == c.KEY_R) {
                         clear();
                     }
-                    else if (e.keyCode == c.KEY_A) {
-                        sp.play([9],0);
-                    }
-                    else if (e.keyCode == c.KEY_S) {
-                        sp.play([8],0);
-                    }
-                    else if (e.keyCode == c.KEY_D) {
-                        sp.play([7],0);
-                    }
-                    else if (e.keyCode == c.KEY_F) {
-                        sp.play([6],0);
-                    }
                 }
             },
             handleKeyUp = function (e) {
@@ -77,7 +68,7 @@
             },
         tick = function () {
             var currentNote = last16thNoteDrawn;
-            var currentTime = sp.context.currentTime;
+            var currentTime = sm.context.currentTime;
 
             while (notesInQueue.length && notesInQueue[0].time < currentTime) {
                 currentNote = notesInQueue[0].note;
@@ -92,6 +83,7 @@
                     affectedCells.each(function (currentCell) {
                         gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
                     });
+                    nextChord();
                 }
                 
                 last16thNoteDrawn = currentNote;
@@ -102,6 +94,11 @@
             // set up to draw again
             window.requestAnimationFrame(tick);
         },
+            nextChord = function() {
+                currentChord++;
+                if (currentChord >= song.chords.length) //loop
+                    currentChord = 0;
+            },
         //Sound scheduling
         nextNote = function () {
             // Advance current note and time by a 16th note...
@@ -123,12 +120,12 @@
                     rowsAlive.push(i);
                 }
             }
-            sp.play(rowsAlive, time);
+            sm.play(rowsAlive, time,song.chords[currentChord]);
         },
         scheduler = function () {
             // while there are notes that will need to play before the next interval, 
             // schedule them and advance the pointer.
-            while (nextNoteTime < sp.context.currentTime + scheduleAheadTime) {
+            while (nextNoteTime < sm.context.currentTime + scheduleAheadTime) {
                 scheduleNote( current16thNote, nextNoteTime );
                 nextNote();
             }
@@ -137,7 +134,7 @@
         togglePlay = function () {
             if (isRunning) { // start playing
                 current16thNote = 0;
-                nextNoteTime = sp.context.currentTime;
+                nextNoteTime = sm.context.currentTime;
                 scheduler();    // kick off scheduling
                 return "stop";
             } else {

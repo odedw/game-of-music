@@ -2,7 +2,7 @@
     [], function() {
         return {
             //world constants
-            ROWS: 10,
+            ROWS: 9,
             COLUMNS: 16,
             CELL_MARGIN:3,
             

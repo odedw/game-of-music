@@ -1,4 +1,4 @@
-﻿define('soundPlayer',
+﻿define('soundManager',
     ['assetManager', 'constants'], function (assetManager,c) {
         var soundBanks = {
             '8bit': {
@@ -10,33 +10,67 @@
             context, soundBuffers,
             currentSoundBank = '8bit',
             
-            play = function (sounds, time) {
+            play = function (sounds, time, chord) {
                 var index = 0;
+                var chordArr = buildChord(chord);
                 for (var i = 0; i < sounds.length; i++) {
-                    if (sounds[i] > 5) { // drums
-                        index = soundBanks[currentSoundBank]['drums'][9 - sounds[i]];
+                    if (sounds[i] > 4) { // drums
+                        index = soundBanks[currentSoundBank]['drums'][c.ROWS - 1 - sounds[i]];
                     }
-                    else if (sounds[i] > 3) { //bass
-                        index = sounds[i] == 4 ? 11 : 4;// soundBanks[currentSoundBank]['bass'][9 - sounds[i]];
-                    } else { //melody 
-                        switch(sounds[i]) {
-                            case 0:
-                                index = 28;
-                                break;
-                            case 1:
-                                index = 23;
-                                break;
-                            case 2:
-                                index = 20;
-                                break;
-                            case 3:
-                                index = 16;
-                                break;
-                        }
+                    else {
+                        index = chordArr[sounds[i]];
                     }
                     playSound(index, time);
                     
                 }
+            },
+            finishedLoading = function(bufferList) {
+                // Create two sources and play them both together.
+                soundBuffers = bufferList;
+                playSound(0, 0);
+            },
+            playSound = function (index, time) {
+                var source = context.createBufferSource();
+                source.buffer = soundBuffers[index];
+                source.connect(context.destination);
+                source.start(time);
+            },
+            buildChord = function (chordName) {
+                var arr = [], base = 0, bassBase = 0;
+                switch (chordName[0]) {
+                    case 'A': base = 21; bassBase = 9; break;
+                    case 'B': base = 23; bassBase = 11; break;
+                    case 'C': base = 24; bassBase = 12; break;
+                    case 'D': base = 26; bassBase = 14; break;
+                    case 'E': base = 16; bassBase = 4; break;
+                    case 'F': base = 17; bassBase = 5; break;
+                    case 'G': base = 19; bassBase = 7; break;
+                }
+                chordName = chordName.substr(1);
+                if (chordName[0] == '#') {
+                    base++;
+                    bassBase++;
+                    chordName = chordName.substr(1);
+                }
+                if (chordName.length == 0) { //major
+                    arr = [base, base + 4, base + 7, base + 12].reverse();
+                }
+                
+                else if (chordName === 'm') { //minor
+                    arr = [base, base + 3, base + 7, base + 12].reverse();
+                }
+                else if (chordName === '7') { //seven
+                    arr = [base, base + 4, base + 7, base + 10].reverse();
+                }
+                else if (chordName === 'maj7') { //major sevn
+                    arr = [base, base + 4, base + 7, base + 11].reverse();
+                }
+                else if (chordName === 'm7') { //minor seven
+                    arr = [base, base + 3, base + 7, base + 10].reverse();
+                }
+                arr.push(bassBase);
+                //arr.push(bassBase + 7 > 15 ? bassBase - 5 : bassBase + 7);
+                return arr;
             },
             init = function() {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -90,23 +124,15 @@
                 );
 
                 bufferLoader.load();
-            },
-            finishedLoading = function(bufferList) {
-                // Create two sources and play them both together.
-                soundBuffers = bufferList;
-                play([9], 0);
-            },
-            playSound = function (index, time) {
-                var source = context.createBufferSource();
-                source.buffer = soundBuffers[index];
-                source.connect(context.destination);
-                source.start(time);
+
+                window.buildChord = buildChord;
             };
 
         init();
 
         return {
             play: play,
-            context: context
-        };
+            context: context,
+            buildChord: buildChord
+    };
     });
