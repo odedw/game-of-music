@@ -78,18 +78,8 @@
             // We only need to draw if the note has moved.
             if (last16thNoteDrawn != currentNote) {
                 gameView.moveColumn(currentNote);
-                if (currentNote == 0 && last16thNoteDrawn != -1) { //step life
-                    var affectedCells = gameLogic.step();
-                    affectedCells.each(function (currentCell) {
-                        gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
-                    });
-                    nextChord();
-                }
-                
                 last16thNoteDrawn = currentNote;
             }
-
-            
             
             // set up to draw again
             window.requestAnimationFrame(tick);
@@ -113,6 +103,15 @@
         },
         scheduleNote = function (beatNumber, time) {
             // push the note on the queue, even if we're not playing.
+            if (beatNumber == 0 && last16thNoteDrawn != -1) {
+                //if (currentNote == 0 && last16thNoteDrawn != -1) { //step life
+                    var affectedCells = gameLogic.step();
+                    affectedCells.each(function (currentCell) {
+                        gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
+                    });
+                    nextChord();
+                //}
+            }
             notesInQueue.push( { note: beatNumber, time: time } );
             var rowsAlive = [];
             for (var i = 0; i < c.ROWS; i++) {
