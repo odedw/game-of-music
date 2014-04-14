@@ -10,6 +10,16 @@
         @*<canvas id="game-canvas" width="419" height="259" onselectstart="return false;"></canvas>*@
         <table id="game-table"></table>
     </div>
+    <div id="controls-container">
+            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-off"></span></button>
+        <div id="bpm-container">
+            <label for="bpm-input" class="col-lg-2 control-label">BPM</label>
+            <input id="bpm-input" type="number" />
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {

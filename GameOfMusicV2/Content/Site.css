@@ -101,6 +101,25 @@ input[type="checkbox"].input-validation-error {
 .container #game-container #game-table td.hover {
   background-color: #CCCCCC;
 }
+.container #controls-container {
+  width: 460px;
+  height: 40px;
+  margin: 10px auto;
+  padding: 5px;
+}
+.container #controls-container #bpm-container {
+  float: right;
+  top: 5px;
+  position: relative;
+}
+.container #controls-container #bpm-container label {
+  line-height: 27px;
+  width: auto;
+}
+.container #controls-container #bpm-container #bpm-input {
+  width: 70px;
+  padding-left: 10px;
+}
 footer {
   position: absolute;
   bottom: 0;
