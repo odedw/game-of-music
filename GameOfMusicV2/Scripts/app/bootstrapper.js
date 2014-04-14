@@ -34,7 +34,7 @@
         // These are already loaded via bundles. 
         // We define them and put them in the root object.
         //        define('jquery', [], function () { return root.jQuery; });
-        //        define('ko', [], function () { return root.ko; });
+        define('ko', [], function () { return root.ko; });
         define('createjs', [], function () { return root.createjs; });
     }
     

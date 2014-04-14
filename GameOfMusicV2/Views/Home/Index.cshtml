@@ -11,23 +11,20 @@
         <table id="game-table"></table>
     </div>
     <div id="controls-container">
-            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+        <button type="button" class="btn btn-default" data-bind="click: togglePlay">
+            <span data-bind="css: { glyphicon: true, 'glyphicon-play': !isPlaying(), 'glyphicon-pause': isPlaying }"></span>
+        </button>
             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-off"></span></button>
         <div id="bpm-container">
             <label for="bpm-input" class="col-lg-2 control-label">BPM</label>
-            <input id="bpm-input" type="number" />
+            <input id="bpm-input" type="number" data-bind="value: bpm" />
         </div>
     </div>
 
 </div>
 
 @section Scripts {
-    <script src="//code.createjs.com/createjs-2013.09.25.min.js"></script>
-    @*<script>
-        window.tilemap = @Html.Action("TileMap");
-        window.levels = @Html.Action("Levels");
-        </script>*@
 
     @Scripts.Render(
         "~/bundles/jsapplibs")

@@ -1,8 +1,9 @@
 ﻿define('gameManager',
-    ['constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (c, gameLogic, assetManager, sm, gameView) {
+    ['ko','constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
         var keysDown = {},
-            timeSinceLastStep = 0, isRunning = false, currentColumn = 0, lastTimestamp = 0,
-            bpm = 123, initialTimeForColumnStep = 60000 / (4 * bpm), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            isPlaying = ko.observable(false), bpm = ko.observable(123),
+            timeSinceLastStep = 0, currentColumn = 0, lastTimestamp = 0,
+            initialTimeForColumnStep = 60000 / (4 * bpm()), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0, // when the next note is due.
             current16thNote, // What note is currently last scheduled?
             notesInQueue = [],
@@ -16,6 +17,7 @@
             },
             currentChord = 0,
             init = function () {
+                ko.applyBindings(this);
                 gameView.init(function(x,y) {
                     return gameLogic.getCell(x, y);
                 });
@@ -54,8 +56,6 @@
                 if (!keysDown[e.keyCode]) {
                     keysDown[e.keyCode] = true;
                     if (e.keyCode == c.KEY_SPACE) {
-                        isRunning = !isRunning;
-                        gameView.setColumnIndicatorVisibility(isRunning, currentColumn);
                         togglePlay();
                     }
                     else if (e.keyCode == c.KEY_R) {
@@ -66,6 +66,7 @@
             handleKeyUp = function (e) {
                 keysDown[e.keyCode] = false;
             },
+            
         tick = function () {
             var currentNote = last16thNoteDrawn;
             var currentTime = sm.context.currentTime;
@@ -92,7 +93,7 @@
         //Sound scheduling
         nextNote = function () {
             // Advance current note and time by a 16th note...
-            var secondsPerBeat = 60.0 / bpm;    // Notice this picks up the CURRENT 
+            var secondsPerBeat = 60.0 / bpm();    // Notice this picks up the CURRENT 
             // tempo value to calculate beat length.
             nextNoteTime += 0.25 * secondsPerBeat;    // Add beat length to last beat time
 
@@ -131,7 +132,9 @@
             timerId = window.setTimeout(scheduler, lookahead);
         },
         togglePlay = function () {
-            if (isRunning) { // start playing
+            isPlaying(!isPlaying());
+            gameView.setColumnIndicatorVisibility(isPlaying(), currentColumn);
+            if (isPlaying()) { // start playing
                 current16thNote = 0;
                 nextNoteTime = sm.context.currentTime;
                 scheduler();    // kick off scheduling
@@ -140,15 +143,11 @@
                 window.clearTimeout( timerId );
                 return "play";
             }
-        }
-                
-                
-                
-                
-                
-                
-                ;
+        };
         return {
-            init: init
+            init: init,
+            bpm: bpm,
+            isPlaying: isPlaying,
+            togglePlay: togglePlay
     };
     });
