@@ -15,7 +15,9 @@
             <span data-bind="css: { glyphicon: true, 'glyphicon-play': !isPlaying(), 'glyphicon-pause': isPlaying }"></span>
         </button>
             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-off"></span></button>
+        <button type="button" class="btn btn-default" data-bind="click: toggleMute">
+            <span data-bind="css: { glyphicon: true, 'glyphicon-volume-off': !isMuted(), 'glyphicon-volume-up': isMuted }"></span>
+        </button>
         <div id="bpm-container">
             <label for="bpm-input" class="col-lg-2 control-label">BPM</label>
             <input id="bpm-input" type="number" data-bind="value: bpm" />
