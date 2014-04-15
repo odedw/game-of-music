@@ -1,7 +1,7 @@
 ﻿define('gameManager',
     ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
         var keysDown = {},
-            isPlaying = ko.observable(false), bpm = ko.observable(123), isMuted = ko.observable(false),
+            isPlaying = ko.observable(false), bpm = ko.observable(123), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false),
             timeSinceLastStep = 0, currentColumn = 0, lastTimestamp = 0,
             initialTimeForColumnStep = 60000 / (4 * bpm()), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0, // when the next note is due.
@@ -138,9 +138,15 @@
                 isMuted(!isMuted());
             },
              clear = function () {
-                 gameLogic.clear();
-                 matchLogic();
+                 if (isVerifyingClear()) { //double clicked, clear
+                     gameLogic.clear();
+                     matchLogic();
+                 }
+                 isVerifyingClear(!isVerifyingClear());
              },
+            stopVerifyingClear = function () {
+                isVerifyingClear(false);
+            },
             matchLogic = function () {
                 for (var y = 0; y < c.ROWS; y++) {
                     for (var x = 0; x < c.COLUMNS; x++) {
@@ -152,7 +158,7 @@
             };
         return {
             init: init,
-            bpm: bpm, isPlaying: isPlaying, isMuted: isMuted,
-            togglePlay: togglePlay, toggleMute: toggleMute, clear: clear,
+            bpm: bpm, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear,
+            togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear
         };
     });

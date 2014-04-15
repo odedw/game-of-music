@@ -14,7 +14,9 @@
         <button type="button" class="btn btn-default" data-bind="click: togglePlay">
             <span data-bind="css: { glyphicon: true, 'glyphicon-play': !isPlaying(), 'glyphicon-pause': isPlaying }"></span>
         </button>
-            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-default" data-bind="click: clear, event: { blur: stopVerifyingClear }">
+            <span data-bind="css: { glyphicon: true, 'glyphicon-trash': !isVerifyingClear(), 'glyphicon-ok': isVerifyingClear }"></span>
+        </button>
         <button type="button" class="btn btn-default" data-bind="click: toggleMute">
             <span data-bind="css: { glyphicon: true, 'glyphicon-volume-off': !isMuted(), 'glyphicon-volume-up': isMuted }"></span>
         </button>
