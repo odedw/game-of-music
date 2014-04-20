@@ -137,8 +137,21 @@ input[type="checkbox"].input-validation-error {
             float: left;
         }
 
-        #help-btn{
-            float:right;
+        #help-btn {
+            float: right;
+        }
+
+        #lock-btn {
+            position:relative;
+            #unlock {
+                position: absolute;
+                top: 3px;
+                bottom: 0;
+                right: 1px;
+                left:0;
+                font-size: 29px;
+                opacity: 0.7;
+            }
         }
 
         #bpm-container {
@@ -147,6 +160,7 @@ input[type="checkbox"].input-validation-error {
             position: relative;
             display: inline-block;
             margin-left: -8px;
+
             label {
                 line-height: 27px;
                 width: auto;
@@ -183,7 +197,9 @@ input[type="checkbox"].input-validation-error {
                 text-align: center;
                 margin-bottom: 10px;
                 position: relative;
-
+                &.current{
+                    background-color:#2d2f33;
+                }
 
                 &:last-child {
                     border-right: solid white 1px;
@@ -263,7 +279,7 @@ input[type="checkbox"].input-validation-error {
                             padding: 0;
 
                             td {
-                                padding:10px 5px;
+                                padding: 10px 5px;
                                 cursor: default;
 
                                 &:hover {

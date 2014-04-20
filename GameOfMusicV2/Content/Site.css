@@ -117,6 +117,18 @@ input[type="checkbox"].input-validation-error {
 .container #controls-container #help-btn {
   float: right;
 }
+.container #controls-container #lock-btn {
+  position: relative;
+}
+.container #controls-container #lock-btn #unlock {
+  position: absolute;
+  top: 3px;
+  bottom: 0;
+  right: 1px;
+  left: 0;
+  font-size: 29px;
+  opacity: 0.7;
+}
 .container #controls-container #bpm-container {
   float: left;
   top: 7px;
@@ -154,6 +166,9 @@ input[type="checkbox"].input-validation-error {
   text-align: center;
   margin-bottom: 10px;
   position: relative;
+}
+.container #chord-container ul li.current {
+  background-color: #2d2f33;
 }
 .container #chord-container ul li:last-child {
   border-right: solid white 1px;

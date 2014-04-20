@@ -52,11 +52,10 @@
                     bassBase++;
                     chordName = chordName.substr(1);
                 }
-                if (chordName.length == 0) { //major
+                if (chordName == 'maj') { //major
                     arr = [base, base + 4, base + 7, base + 12].reverse();
                 }
-                
-                else if (chordName === 'm') { //minor
+                else if (chordName === 'min') { //minor
                     arr = [base, base + 3, base + 7, base + 12].reverse();
                 }
                 else if (chordName === '7') { //seven
@@ -65,7 +64,7 @@
                 else if (chordName === 'maj7') { //major sevn
                     arr = [base, base + 4, base + 7, base + 11].reverse();
                 }
-                else if (chordName === 'm7') { //minor seven
+                else if (chordName === 'min7') { //minor seven
                     arr = [base, base + 3, base + 7, base + 10].reverse();
                 }
                 else if (chordName === 'aug') { //minor seven

@@ -2,23 +2,26 @@
     ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
         var keysDown = {},
              song = {
-                 chords: ko.observableArray([ 
-                    
-
-
-                      { key: ko.observable('F'), mod: ko.observable('aug') },
-                     { key: ko.observable('C#'), mod: ko.observable('') },
-                     { key: ko.observable('F'), mod: ko.observable('aug') },
-                     { key: ko.observable('C#'), mod: ko.observable('') },
-                     { key: ko.observable('A#'), mod: ko.observable('aug') },
-                     { key: ko.observable('F#'), mod: ko.observable('') },
-                     { key: ko.observable('A#'), mod: ko.observable('aug') },
-                     { key: ko.observable('F#'), mod: ko.observable('') },
+                 chords: ko.observableArray([
+                     { key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
+                     { key: ko.observable('D'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     { key: ko.observable('F#'), mod: ko.observable('min'), isCurrent: ko.observable(false) },
+                     { key: ko.observable('E'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     
+                     // { key: ko.observable('F'), mod: ko.observable('aug'), isCurrent: ko.observable(true)},
+                     //{ key: ko.observable('C#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('F'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('C#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('A#'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('A#'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
 
                  ]),
                  bpm: ko.observable(123),
              },
             isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false),
+            isLocked = ko.observable(false),
             initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
             //timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0, // when the next note is due.
@@ -97,9 +100,11 @@
                 window.requestAnimationFrame(tick);
             },
             nextChord = function () {
+                song.chords()[currentChord].isCurrent(false);
                 currentChord++;
                 if (currentChord >= song.chords().length) //loop
                     currentChord = 0;
+                song.chords()[currentChord].isCurrent(true);
             },
             //Sound scheduling
             nextNote = function () {
@@ -116,13 +121,13 @@
             scheduleNote = function(beatNumber, time) {
                 // push the note on the queue, even if we're not playing.
                 if (beatNumber == 0 && last16thNoteDrawn != -1) {
-                    //if (currentNote == 0 && last16thNoteDrawn != -1) { //step life
-                    var affectedCells = gameLogic.step();
-                    affectedCells.each(function(currentCell) {
-                        gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
-                    });
+                    if (!isLocked()) {
+                        var affectedCells = gameLogic.step();
+                        affectedCells.each(function(currentCell) {
+                            gameView.setCellLiveness(currentCell.y, currentCell.x, currentCell.dead);
+                        });
+                    }
                     nextChord();
-                    //}
                 }
                 notesInQueue.push({ note: beatNumber, time: time });
                 var rowsAlive = [];
@@ -188,13 +193,32 @@
                 song.chords.remove(chord);
             },
             addChord = function(chord) {
-                song.chords.splice(song.chords().indexOf(chord) + 1, 0, { key: ko.observable('A'), mod: ko.observable('') });
+                song.chords.splice(song.chords().indexOf(chord) + 1, 0, { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
             },
             changeKey = function (chord, evt) {
-                
+                var target = $(evt.currentTarget);
+                target.on('shown.bs.popover', function () {
+                    target.parent().find('.popover.in td').click(function () {
+                        var val = $(this).text();
+                        target.popover('destroy');
+                        chord.key(val);
+                    });
+                });
+
             },
             changeMod = function (chord, evt) {
-
+                var target = $(evt.currentTarget);
+                target.on('shown.bs.popover', function () {
+                    target.parent().find('.popover.in td').click(function () {
+                        var val = $(this).text();
+                        target.popover('destroy');                        
+                        $('.popover').remove();
+                        chord.mod(val);
+                    });
+                });
+            },
+            toggleLock = function() {
+                isLocked(!isLocked());
             },
             enablePopover = function() {
                 $('.enable-popover').popover({ html: true });
@@ -203,8 +227,8 @@
             };
         return {
             init: init,
-            song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear,
+            song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock
         };
     });
