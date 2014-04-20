@@ -126,7 +126,6 @@
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
-    <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\github.png" />
     <Content Include="Content\Images\lock.png" />
@@ -202,9 +201,6 @@
     <Content Include="Content\Sounds\8bit-G_2.ogg" />
     <Content Include="Content\Sounds\8bit-G1.ogg" />
     <Content Include="Content\Sounds\8bit-G2.ogg" />
-    <Content Include="Content\Fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\buffer-loader.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
