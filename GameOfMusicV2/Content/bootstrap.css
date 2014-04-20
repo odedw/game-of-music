@@ -181,10 +181,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-td,
-th {
-  padding: 0;
-}
 @media print {
   * {
     text-shadow: none !important;
@@ -1401,7 +1397,6 @@ pre code {
 }
 table {
   max-width: 100%;
-  background-color: #2e3338;
 }
 th {
   text-align: left;
@@ -2373,16 +2368,16 @@ input[type="button"].btn-block {
   transition: height 0.35s ease;
 }
 @font-face {
-  font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+    font-family: 'Glyphicons Halflings';
+    src: url('http://netdna.bootstrapcdn.com/bootstrap/3.0.3/fonts/glyphicons-halflings-regular.eot');
+    src: url('http://netdna.bootstrapcdn.com/bootstrap/3.0.3/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('http://netdna.bootstrapcdn.com/bootstrap/3.0.3/fonts/glyphicons-halflings-regular.woff') format('woff'), url('http://netdna.bootstrapcdn.com/bootstrap/3.0.3/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('http://netdna.bootstrapcdn.com/bootstrap/3.0.3/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
   top: 1px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
-  font-style: normal;
+  font-style: normal; 
   font-weight: normal;
   line-height: 1;
   -webkit-font-smoothing: antialiased;

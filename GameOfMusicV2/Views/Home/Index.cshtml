@@ -11,25 +11,85 @@
         <table id="game-table"></table>
     </div>
     <div id="controls-container">
-        <button type="button" class="btn btn-default" data-bind="click: togglePlay">
+        <button type="button" class="btn btn-primary" data-bind="click: togglePlay">
             <span data-bind="css: { glyphicon: true, 'glyphicon-play': !isPlaying(), 'glyphicon-pause': isPlaying }"></span>
         </button>
-        <button type="button" class="btn btn-default" data-bind="click: clear, event: { blur: stopVerifyingClear }">
+        <button type="button" class="btn btn-primary" data-bind="click: clear, event: { blur: stopVerifyingClear }">
             <span data-bind="css: { glyphicon: true, 'glyphicon-trash': !isVerifyingClear(), 'glyphicon-ok': isVerifyingClear }"></span>
         </button>
-        <button type="button" class="btn btn-default" data-bind="click: toggleMute">
+        <button type="button" class="btn btn-primary">
+            <span class="glyphicon glyphicon-lock"></span>
+        </button>
+        <button type="button" class="btn btn-primary" data-bind="click: toggleMute">
             <span data-bind="css: { glyphicon: true, 'glyphicon-volume-off': !isMuted(), 'glyphicon-volume-up': isMuted }"></span>
         </button>
         <div id="bpm-container">
             <label for="bpm-input" class="col-lg-2 control-label">BPM</label>
-            <input id="bpm-input" type="number" data-bind="value: bpm" />
+            <input id="bpm-input" type="number" data-bind="value: song.bpm" />
         </div>
+       
+        
+        <button type="button" class="btn btn-primary" id="share-btn">
+            <span class="glyphicon glyphicon-share"></span><span id="text">Share This Song</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="help-btn">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
     </div>
-
+    <div id="chord-container" class="well">
+        <ul data-bind="foreach: song.chords">
+            <li>
+                <span class="key enable-popover" data-bind="text: key, click: $parent.changeKey" data-placement="bottom"></span>
+                <span class="mod enable-popover" data-bind="text: mod, click: $parent.changeMod" data-placement="bottom"></span>
+                <span class="remove-btn glyphicon glyphicon-remove" data-bind="click: $parent.removeChord"></span>
+                <span class="add-btn glyphicon glyphicon-plus" data-bind="click: $parent.addChord, visible: $parent.song.chords().length < 16"></span>
+            </li>
+        </ul>
+    </div>
 </div>
 
-@section Scripts {
 
+@section Scripts {
+    <script type="text/html" id="chords-list">
+        <table>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td>A#</td>
+                    <td>B</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td>C#</td>
+                    <td>D</td>
+                    <td>D#</td>
+                    <td>E</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>F#</td>
+                    <td>G</td>
+                    <td>G#</td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+    <script type="text/html" id="mod-list">
+        <table>
+            <tbody>
+                <tr>
+                    <td>maj</td>
+                    <td>min</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <td>maj7</td>
+                    <td>min7</td>
+                    <td>aug</td>
+            </tr>
+        </tbody>
+    </table>
+    </script>
     @Scripts.Render(
         "~/bundles/jsapplibs")
 

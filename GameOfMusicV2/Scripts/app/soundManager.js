@@ -68,6 +68,9 @@
                 else if (chordName === 'm7') { //minor seven
                     arr = [base, base + 3, base + 7, base + 10].reverse();
                 }
+                else if (chordName === 'aug') { //minor seven
+                    arr = [base, base + 4, base + 7, base + 8].reverse();
+                }
                 arr.push(bassBase);
                 //arr.push(bassBase + 7 > 15 ? bassBase - 5 : bassBase + 7);
                 return arr;

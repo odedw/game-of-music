@@ -1,9 +1,26 @@
 ﻿define('gameManager',
     ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
         var keysDown = {},
-            isPlaying = ko.observable(false), bpm = ko.observable(123), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false),
-            timeSinceLastStep = 0, currentColumn = 0, lastTimestamp = 0,
-            initialTimeForColumnStep = 60000 / (4 * bpm()), timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+             song = {
+                 chords: ko.observableArray([ 
+                    
+
+
+                      { key: ko.observable('F'), mod: ko.observable('aug') },
+                     { key: ko.observable('C#'), mod: ko.observable('') },
+                     { key: ko.observable('F'), mod: ko.observable('aug') },
+                     { key: ko.observable('C#'), mod: ko.observable('') },
+                     { key: ko.observable('A#'), mod: ko.observable('aug') },
+                     { key: ko.observable('F#'), mod: ko.observable('') },
+                     { key: ko.observable('A#'), mod: ko.observable('aug') },
+                     { key: ko.observable('F#'), mod: ko.observable('') },
+
+                 ]),
+                 bpm: ko.observable(123),
+             },
+            isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false),
+            initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
+            //timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0, // when the next note is due.
             current16thNote, // What note is currently last scheduled?
             notesInQueue = [],
@@ -12,9 +29,7 @@
             scheduleAheadTime = 0.1, // How far ahead to schedule audio (sec)
             timerId = 0, // setInterval identifier.
             last16thNoteDrawn = -1, // the last "box" we drew on the screen
-            song = {
-                chords: ['F7', 'F7', 'Cm', 'A#']
-            },
+           
             currentChord = 0,
             init = function () {
                 ko.applyBindings(this);
@@ -33,6 +48,16 @@
                 });
                 assetManager.loadAssets();
                 tick();
+                enablePopover();
+                $('html').on('mouseup', function (e) {
+                    if (!$(e.target).closest('.popover.in').length) {
+                        $('.popover').each(function () {
+                            $(this.previousSibling).popover('destroy');
+                        });
+                        $('.popover').remove();
+                        enablePopover();
+                    }
+                });
             },         
             setupKeys = function () {
                 document.onkeydown = handleKeyDown;
@@ -73,13 +98,13 @@
             },
             nextChord = function () {
                 currentChord++;
-                if (currentChord >= song.chords.length) //loop
+                if (currentChord >= song.chords().length) //loop
                     currentChord = 0;
             },
             //Sound scheduling
             nextNote = function () {
                 // Advance current note and time by a 16th note...
-                var secondsPerBeat = 60.0 / bpm();    // Notice this picks up the CURRENT 
+                var secondsPerBeat = 60.0 / song.bpm();    // Notice this picks up the CURRENT 
                 // tempo value to calculate beat length.
                 nextNoteTime += 0.25 * secondsPerBeat;    // Add beat length to last beat time
 
@@ -107,8 +132,11 @@
                     }
                 }
                 if (!isMuted()) {
-                    sm.play(rowsAlive, time, song.chords[currentChord]);
+                    sm.play(rowsAlive, time, getChordString(song.chords()[currentChord]));
                 }
+            },
+            getChordString = function(chordObj) {
+                return chordObj.key() + chordObj.mod();
             },
             scheduler = function () {
                 // while there are notes that will need to play before the next interval, 
@@ -155,10 +183,28 @@
                         gameView.setCellLock(y, x, cell.locked);
                     }
                 }
+            },
+            removeChord = function (chord) {
+                song.chords.remove(chord);
+            },
+            addChord = function(chord) {
+                song.chords.splice(song.chords().indexOf(chord) + 1, 0, { key: ko.observable('A'), mod: ko.observable('') });
+            },
+            changeKey = function (chord, evt) {
+                
+            },
+            changeMod = function (chord, evt) {
+
+            },
+            enablePopover = function() {
+                $('.enable-popover').popover({ html: true });
+                $('.enable-popover.key').attr('data-content', $('#chords-list').html());
+                $('.enable-popover.mod').attr('data-content', $('#mod-list').html());
             };
         return {
             init: init,
-            bpm: bpm, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear,
-            togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear
+            song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear,
+            togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
+            changeKey: changeKey, changeMod: changeMod
         };
     });

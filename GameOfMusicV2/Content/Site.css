@@ -1,7 +1,6 @@
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-  background-color: #434343;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -45,6 +44,7 @@ input[type="checkbox"].input-validation-error {
   background-color: transparent;
   position: relative;
   -webkit-touch-callout: none;
+  cursor: default;
 }
 .container #game-container #game-table {
   width: 100%;
@@ -57,6 +57,7 @@ input[type="checkbox"].input-validation-error {
   user-select: none;
   border-collapse: separate;
   border-spacing: 3px;
+  color: #272b30;
 }
 .container #game-container #game-table tr {
   -webkit-user-select: none;
@@ -69,6 +70,7 @@ input[type="checkbox"].input-validation-error {
   background-color: black;
   text-align: center;
   position: relative;
+  box-shadow: inset 1px 1px 1px #333, 1px 1px 1px #555;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -110,19 +112,115 @@ input[type="checkbox"].input-validation-error {
 }
 .container #controls-container button {
   margin-right: 5px;
+  float: left;
+}
+.container #controls-container #help-btn {
+  float: right;
 }
 .container #controls-container #bpm-container {
-  float: right;
-  top: 8px;
+  float: left;
+  top: 7px;
   position: relative;
+  display: inline-block;
+  margin-left: -8px;
 }
 .container #controls-container #bpm-container label {
   line-height: 27px;
   width: auto;
 }
 .container #controls-container #bpm-container #bpm-input {
-  width: 70px;
-  padding-left: 10px;
+  width: 55px;
+  padding-left: 5px;
+}
+.container #controls-container #share-btn {
+  float: right;
+  margin-right: 0;
+}
+.container #controls-container #share-btn #text {
+  margin-left: 5px;
+}
+.container #chord-container {
+  margin-top: 20px;
+  padding-bottom: 0;
+}
+.container #chord-container ul {
+  padding: 0;
+  width: 100%;
+}
+.container #chord-container ul li {
+  display: inline-block;
+  width: 24%;
+  border-left: solid white 1px;
+  text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.container #chord-container ul li:last-child {
+  border-right: solid white 1px;
+}
+.container #chord-container ul li:nth-child(4n+0) {
+  border-right: solid white 1px;
+}
+.container #chord-container ul li span {
+  cursor: pointer;
+}
+.container #chord-container ul li span:hover {
+  color: #7a8288;
+}
+.container #chord-container ul li .key {
+  font-size: 24px;
+}
+.container #chord-container ul li .mod {
+  font-size: 16px;
+  position: relative;
+  left: -2px;
+}
+.container #chord-container ul li .remove-btn {
+  position: absolute;
+  right: 2px;
+  top: 19px;
+  color: #ee5f5b;
+  display: none;
+}
+.container #chord-container ul li .remove-btn:hover {
+  color: #cc3d3a;
+}
+.container #chord-container ul li .add-btn {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  display: none;
+  color: #62c462;
+}
+.container #chord-container ul li .add-btn:hover {
+  color: #41b241;
+}
+.container #chord-container ul li:first-child .remove-btn {
+  display: none !important;
+}
+.container #chord-container ul li:hover .remove-btn {
+  display: block;
+}
+.container #chord-container ul li:hover .add-btn {
+  display: block;
+}
+.container #chord-container ul li .popover .popover-content {
+  padding: 0;
+  width: 185px;
+}
+.container #chord-container ul li .popover .popover-content table {
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  padding: 0;
+}
+.container #chord-container ul li .popover .popover-content table td {
+  padding: 10px 5px;
+  cursor: default;
+}
+.container #chord-container ul li .popover .popover-content table td:hover {
+  background-color: #3f4449;
+  cursor: pointer;
 }
 footer {
   position: absolute;
