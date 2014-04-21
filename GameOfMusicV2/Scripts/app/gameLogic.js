@@ -133,6 +133,17 @@
 
                     }
                 }
+            },
+            getBoard = function() {
+                var liveCells = [];
+                world.cells.each(function(cell) {
+                    if (!cell.dead)
+                        liveCells.push({ x: cell.x, y: cell.y });
+                });
+                return liveCells;
+            },
+            setBoard = function (newBoard) {
+                
             };
         
         return {
@@ -140,6 +151,8 @@
             getCell: function(x, y) {
                 return world.getCell(x, y);
             },
-            clear: clear
+            clear: clear,
+            getBoard: getBoard,
+            setBoard: setBoard
         };
 });

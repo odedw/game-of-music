@@ -129,20 +129,22 @@ input[type="checkbox"].input-validation-error {
   font-size: 29px;
   opacity: 0.7;
 }
-.container #controls-container #bpm-container {
+.container #controls-container .input-container {
   float: left;
-  top: 7px;
   position: relative;
   display: inline-block;
-  margin-left: -8px;
+  height: 100%;
+  top: 2px;
 }
-.container #controls-container #bpm-container label {
-  line-height: 27px;
-  width: auto;
+.container #controls-container .input-container #sound-set-input {
+  width: 80px;
+  margin-left: 6px;
+  color: black;
 }
-.container #controls-container #bpm-container #bpm-input {
+.container #controls-container .input-container .input {
   width: 55px;
   padding-left: 5px;
+  height: 100%;
 }
 .container #controls-container #share-btn {
   float: right;

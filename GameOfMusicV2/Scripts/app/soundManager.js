@@ -135,6 +135,8 @@
         return {
             play: play,
             context: context,
-            buildChord: buildChord
+            buildChord: buildChord,
+            setSoundBank: function(bank) { currentSoundBank = bank; },
+            getSoundBank: function() { return currentSoundBank; }
     };
     });

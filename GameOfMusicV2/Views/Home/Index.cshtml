@@ -21,14 +21,18 @@
             <span class="glyphicon glyphicon-lock"></span>
             <span class="glyphicon glyphicon-ban-circle" id="unlock" data-bind="visible:isLocked"></span>
         </button>
-        <button type="button" class="btn btn-primary" data-bind="click: toggleMute">
-            <span data-bind="css: { glyphicon: true, 'glyphicon-volume-off': !isMuted(), 'glyphicon-volume-up': isMuted }"></span>
-        </button>
-        <div id="bpm-container">
-            <label for="bpm-input" class="col-lg-2 control-label">BPM</label>
-            <input id="bpm-input" type="number" data-bind="value: song.bpm" />
+        <div id="bpm-container" class="input-container">
+            <input id="bpm-input" type="number" data-bind="value: song.bpm" class="input"/>
         </div>
-        <button type="button" class="btn btn-primary" id="share-btn">
+        <div id="sound-set-container" class="input-container">
+            <select id="sound-set-input" class="input">
+                <option>8bit</option>
+                <option>Rock</option>
+                <option>Latin</option>
+            </select>
+
+        </div>
+        <button type="button" class="btn btn-primary" id="share-btn" data-bind="click: shareSong">
             <span class="glyphicon glyphicon-share"></span><span id="text">Share This Song</span>
         </button>
         <button type="button" class="btn btn-primary" id="help-btn">

@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
+    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'utils'], function (ko, c, gameLogic, assetManager, sm, gameView, utils) {
         var keysDown = {},
              song = {
                  chords: ko.observableArray([
@@ -60,6 +60,9 @@
                         $('.popover').remove();
                         enablePopover();
                     }
+                });
+                $('#sound-set-input').change(function() {
+                    sm.setSoundBank($(this).val());
                 });
             },         
             setupKeys = function () {
@@ -220,6 +223,18 @@
             toggleLock = function() {
                 isLocked(!isLocked());
             },
+            shareSong = function () {
+                var chords = [];
+                song.chords().each(function(chord) {
+                    chords.push({ key: chord.key(), mod: chord.mod() });
+                });
+                var songObj = {
+                    sound: sm.getSoundBank(),
+                    bpm: song.bpm(),
+                    chords: chords,
+                    cells: gameLogic.getBoard()
+                };
+            },
             enablePopover = function() {
                 $('.enable-popover').popover({ html: true });
                 $('.enable-popover.key').attr('data-content', $('#chords-list').html());
@@ -229,6 +244,6 @@
             init: init,
             song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, shareSong: shareSong
         };
     });
