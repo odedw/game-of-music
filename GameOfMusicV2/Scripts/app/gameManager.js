@@ -3,10 +3,11 @@
         var keysDown = {},
              song = {
                  chords: ko.observableArray([
-                     { key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
-                     { key: ko.observable('D'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     { key: ko.observable('F#'), mod: ko.observable('min'), isCurrent: ko.observable(false) },
-                     { key: ko.observable('E'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) },
+                     //{ key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
+                     //{ key: ko.observable('D'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('F#'), mod: ko.observable('min'), isCurrent: ko.observable(false) },
+                     //{ key: ko.observable('E'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
                      
                      // { key: ko.observable('F'), mod: ko.observable('aug'), isCurrent: ko.observable(true)},
                      //{ key: ko.observable('C#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
@@ -48,6 +49,9 @@
                 setupKeys();
                 assetManager.loadCompleteEvent.add(function () {
                     gameView.initializeGraphics();
+                    if (window.track) {
+                        loadTrack(window.track);
+                    }
                 });
                 assetManager.loadAssets();
                 tick();
@@ -64,7 +68,39 @@
                 $('#sound-set-input').change(function() {
                     sm.setSoundBank($(this).val());
                 });
-            },         
+            },
+            loadTrack = function (track) {
+                //set bpm
+                song.bpm(track.bpm);
+                
+                //set sound set
+                sm.setSoundBank(track.sound);
+                $('#sound-set-input').val(track.sound);
+                
+                //set chords
+                track.chords = JSON.parse(track.chords);
+                var chords = [];
+                track.chords.each(function(chord) {
+                    chords.push({ key: ko.observable(chord.key), mod: ko.observable(chord.mod), isCurrent: ko.observable(false) });
+                });
+                if (chords.length > 0) {
+                    chords[0].isCurrent(true);
+                } else {
+                    chords.push({ key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) });
+                }
+                song.chords(chords);
+                
+                //set board
+                track.cells = JSON.parse(track.cells);
+                isVerifyingClear(true);
+                clear();
+                track.cells.each(function(cell) {
+                    gameLogic.getCell(cell.x, cell.y).dead = cell.dead;
+                    gameLogic.getCell(cell.x, cell.y).locked = cell.locked;
+                });
+                matchLogic();
+
+            },
             setupKeys = function () {
                 document.onkeydown = handleKeyDown;
                 document.onkeyup = handleKeyUp;
@@ -72,10 +108,10 @@
             handleKeyDown = function (e) {
                 if (!keysDown[e.keyCode]) {
                     keysDown[e.keyCode] = true;
-                    if (e.keyCode == c.KEY_SPACE) {
+                    if (e.keyCode === c.KEY_SPACE) {
                         togglePlay();
                     }
-                    else if (e.keyCode == c.KEY_R) {
+                    else if (e.keyCode === c.KEY_R) {
                         clear();
                     }
                 }
@@ -94,7 +130,7 @@
                 }
 
                 // We only need to draw if the note has moved.
-                if (last16thNoteDrawn != currentNote) {
+                if (last16thNoteDrawn !== currentNote) {
                     gameView.moveColumn(currentNote);
                     last16thNoteDrawn = currentNote;
                 }
@@ -117,13 +153,13 @@
                 nextNoteTime += 0.25 * secondsPerBeat;    // Add beat length to last beat time
 
                 current16thNote++;    // Advance the beat number, wrap to zero
-                if (current16thNote == 16) {
+                if (current16thNote === 16) {
                     current16thNote = 0;
                 }
             },
             scheduleNote = function(beatNumber, time) {
                 // push the note on the queue, even if we're not playing.
-                if (beatNumber == 0 && last16thNoteDrawn != -1) {
+                if (beatNumber === 0 && last16thNoteDrawn !== -1) {
                     if (!isLocked()) {
                         var affectedCells = gameLogic.step();
                         affectedCells.each(function(currentCell) {
@@ -231,9 +267,15 @@
                 var trackObj = {
                     sound: sm.getSoundBank(),
                     bpm: song.bpm(),
-                    chords: chords,
-                    cells: gameLogic.getBoard()
+                    chords: JSON.stringify(chords),
+                    cells: JSON.stringify(gameLogic.getBoard())
                 };
+                $.post("api/tracks", trackObj)
+                    .done(function (data) {
+                        console.log(data);
+                    })
+                    .fail(function(data) {
+                    });
             },
             enablePopover = function() {
                 $('.enable-popover').popover({ html: true });

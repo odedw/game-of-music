@@ -17,7 +17,7 @@ namespace GameOfMusicV2.Controllers
         public async Task<TrackEntity> Get(string id)
         {
             var dc = new TableDataContext<TrackEntity>();
-            var track = await dc.GetSingleEntityAsync(id);
+            var track = await dc.GetSingleEntityAsync(id);            
             track.ClientAddress = null;
             return track;
         }
@@ -25,7 +25,7 @@ namespace GameOfMusicV2.Controllers
         // POST api/tracks
         public async Task<string> Post(TrackEntity track)
         {
-            //track.ClientAddress = HttpContext.Current.Request
+            track.ClientAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             var dc = new TableDataContext<TrackEntity>();
             var result = await dc.InsertEntityAsync(track);
             if (result != null)

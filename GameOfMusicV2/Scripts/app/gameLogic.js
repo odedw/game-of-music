@@ -137,8 +137,8 @@
             getBoard = function() {
                 var liveCells = [];
                 world.cells.each(function(cell) {
-                    if (!cell.dead)
-                        liveCells.push({ x: cell.x, y: cell.y });
+                    if (!cell.dead || cell.locked)
+                        liveCells.push({ x: cell.x, y: cell.y, locked:cell.locked, dead:cell.dead });
                 });
                 return liveCells;
             },

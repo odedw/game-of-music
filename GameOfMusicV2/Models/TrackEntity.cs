@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using CSharpVitamins;
 using Storage;
 
 namespace GameOfMusicV2.Models
@@ -10,20 +11,26 @@ namespace GameOfMusicV2.Models
     {
         public string Bpm { get; set; }
         public string Sound { get; set; }
-        public List<Point> Cells { get; set; }
-        public List<Chord> Chords { get; set; }
+        public string Cells { get; set; }
+        public string Chords { get; set; }
 
         public string ClientAddress { get; set; }
 
         public TrackEntity()
         {
-            PartitionKey = Guid.NewGuid().ToString();
+            PartitionKey = ShortGuid.NewGuid().ToString();
             RowKey = "";
         }
     }
     public class Chord
     {
         public string Key { get; set; }
-        public string Mode { get; set; }
+        public string Mod { get; set; }
+    }
+
+    public class Cell
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

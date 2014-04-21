@@ -1,8 +1,12 @@
-﻿@using System.Web.Optimization
+﻿@using System.Runtime.Serialization.Json
+@using System.Web.Optimization
+@using GameOfMusicV2.Models
+@using Newtonsoft.Json
 @model dynamic
 
 @{
     Layout = "~/views/shared/_Layout.cshtml";
+    var track = ViewBag.Track as string;
 }
 
 <div class="container">
@@ -95,5 +99,11 @@
     </script>
     @Scripts.Render(
         "~/bundles/jsapplibs")
-
+    @if (track != null)
+    {
+        <script>
+            window.track = @Html.Raw(track);
+            console.log(window.track);
+        </script>
+    }
 }
