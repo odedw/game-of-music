@@ -263,16 +263,16 @@
     <Content Include="Views\Shared\Analytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\My Libraries\Storage\Storage.csproj">
-      <Project>{66EB7B9B-422D-418D-928E-B0A1835358D8}</Project>
-      <Name>Storage</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{66eb7b9b-422d-418d-928e-b0a1835358d8}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
