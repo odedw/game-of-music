@@ -228,7 +228,7 @@
                 song.chords().each(function(chord) {
                     chords.push({ key: chord.key(), mod: chord.mod() });
                 });
-                var songObj = {
+                var trackObj = {
                     sound: sm.getSoundBank(),
                     bpm: song.bpm(),
                     chords: chords,
