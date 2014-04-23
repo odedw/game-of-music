@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'utils'], function (ko, c, gameLogic, assetManager, sm, gameView, utils) {
+    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
         var keysDown = {},
              song = {
                  chords: ko.observableArray([
@@ -21,7 +21,7 @@
                  ]),
                  bpm: ko.observable(123),
              },
-            isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false),
+            isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false), trackUrl = ko.observable("http://localhost:65003?id=fWONAXaD90iiKVPFV0hUcA"),
             isLocked = ko.observable(false),
             initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
             //timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
@@ -68,6 +68,22 @@
                 $('#sound-set-input').change(function() {
                     sm.setSoundBank($(this).val());
                 });
+                $('#share-track-dlg').on('show.bs.modal', function (e) {
+                    //generateLink();
+                });
+                $('#share-track-dlg').on('hidden.bs.modal', function (e) {
+                    //trackUrl("");
+                    $('#copy-btn').html('Copy');
+
+                });
+                
+                    var clip = new ZeroClipboard(document.getElementById("copy-btn"), {
+                        moviePath: "/Content/ZeroClipboard.swf"
+                    });                    
+
+                    clip.on('complete', function (client, args) {
+                        $(this).html('Copied!');
+                    });
             },
             loadTrack = function (track) {
                 //set bpm
@@ -259,7 +275,9 @@
             toggleLock = function() {
                 isLocked(!isLocked());
             },
-            shareSong = function () {
+            copyLink = function() {
+            },
+            generateLink = function () {
                 var chords = [];
                 song.chords().each(function(chord) {
                     chords.push({ key: chord.key(), mod: chord.mod() });
@@ -271,8 +289,8 @@
                     cells: JSON.stringify(gameLogic.getBoard())
                 };
                 $.post("api/tracks", trackObj)
-                    .done(function (data) {
-                        console.log(data);
+                    .done(function (id) {
+                        trackUrl(window.location.origin + '?id=' + id);
                     })
                     .fail(function(data) {
                     });
@@ -284,8 +302,8 @@
             };
         return {
             init: init,
-            song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked,
+            song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked, trackUrl: trackUrl,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, shareSong: shareSong
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink
         };
     });

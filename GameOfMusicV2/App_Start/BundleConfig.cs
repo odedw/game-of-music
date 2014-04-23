@@ -24,11 +24,13 @@ namespace GameOfMusicV2
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                        "~/Content/site.css"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/jsextlibs").Include(
                 "~/Scripts/require.js",
-                "~/Scripts/buffer-loader.js"
+                "~/Scripts/buffer-loader.js",
+                "~/Scripts/ZeroClipboard.js"
                                    ));
 
             bundles.Add(new ScriptBundle("~/bundles/jsapplibs")

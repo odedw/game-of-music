@@ -8,11 +8,6 @@ body {
   padding-right: 15px;
 }
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-  max-width: 280px;
-}
 /* styles for validation helpers */
 .field-validation-error {
   color: #b94a48;
@@ -277,8 +272,48 @@ footer ul li img:hover {
 footer ul li img:active {
   top: 1px;
 }
-@font-face {
-  font-family: Minecraftia;
-  src: url('Minecraftia.ttf') format('truetype');
+.modal-dialog-center {
+  margin-top: 15%;
+}
+.modal-dialog-center #spinner {
+  margin-left: 5px;
+}
+.modal-dialog-center #url-input-container {
+  margin-top: 2px;
+}
+.modal-dialog-center #social-share {
+  margin-top: 10px;
+  width: 100%;
+}
+.modal-dialog-center #social-share .btn {
+  border: none;
+  width: 140px;
+  position: relative;
+  margin-top: 2px;
+  margin-right: 10px;
+}
+.modal-dialog-center #social-share .btn:active {
+  top: 1px;
+}
+.modal-dialog-center #social-share #share-track-facebook {
+  background: #3A589B;
+  color: white;
+}
+.modal-dialog-center #social-share #share-track-facebook img {
+  background-color: white;
+}
+.modal-dialog-center #social-share #share-track-twitter {
+  background: #598DCA;
+  color: white;
+}
+.modal-dialog-center #social-share #share-track-twitter img {
+  background-color: white;
+}
+.modal-dialog-center #social-share #share-track-google {
+  background: #DC422B;
+  color: white;
+}
+.modal-dialog-center #social-share #share-track-google img {
+  background-color: white;
 }
 /*# sourceMappingURL=Site.css.map */

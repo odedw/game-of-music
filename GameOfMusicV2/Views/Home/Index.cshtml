@@ -26,7 +26,7 @@
             <span class="glyphicon glyphicon-ban-circle" id="unlock" data-bind="visible:isLocked"></span>
         </button>
         <div id="bpm-container" class="input-container">
-            <input id="bpm-input" type="number" data-bind="value: song.bpm" class="input"/>
+            <input id="bpm-input" type="number" data-bind="value: song.bpm" class="input" />
         </div>
         <div id="sound-set-container" class="input-container">
             <select id="sound-set-input" class="input">
@@ -36,7 +36,7 @@
             </select>
 
         </div>
-        <button type="button" class="btn btn-primary" id="share-btn" data-bind="click: shareSong">
+        <button type="button" class="btn btn-primary" id="share-btn" data-toggle="modal" data-target="#share-track-dlg">
             <span class="glyphicon glyphicon-share"></span><span id="text">Share This Song</span>
         </button>
         <button type="button" class="btn btn-primary" id="help-btn">
@@ -52,6 +52,51 @@
                 <span class="add-btn glyphicon glyphicon-plus" data-bind="click: $parent.addChord, visible: $parent.song.chords().length < 16"></span>
             </li>
         </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="share-track-dlg">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Share your track</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span>Track Link</span>
+                    <img src="/Content/Images/ajax-loader.gif" alt="" id="spinner" data-bind="visible: !trackUrl()" />
+                </div>
+                <div class="input-group" id="url-input-container">
+                    <input type="text" class="form-control" placeholder="Generating..." data-bind="value: trackUrl" id="url-input">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary" id="copy-btn" data-placement="top" data-clipboard-target="url-input">
+                            Copy
+                        </button>
+                    </span>
+                </div>
+                <div id="social-share">
+                    <div>Share on</div>
+                    <a target="_blank" id="facebook-link" data-bind="attr{href:'https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(trackUrl())}">
+                        <div id="share-track-facebook" class="btn">
+                            <img src="/Content/Images/share_facebook.png" alt="" />
+                            <span>Facebook</span>
+                        </div>
+                    </a>
+                    <div id="share-track-twitter" class="btn">
+                        <img src="/Content/Images/share_twitter.png" alt="" />
+                        <span>Twitter</span>
+                    </div>
+                    <div id="share-track-google" class="btn">
+                        <img src="/Content/Images/share_google.png" alt="" />
+                        <span>Google</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn btn-default" data-dismiss="modal">Close</div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -93,9 +138,9 @@
                     <td>maj7</td>
                     <td>min7</td>
                     <td>aug</td>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
     </script>
     @Scripts.Render(
         "~/bundles/jsapplibs")
@@ -103,7 +148,6 @@
     {
         <script>
             window.track = @Html.Raw(track);
-            console.log(window.track);
         </script>
     }
 }

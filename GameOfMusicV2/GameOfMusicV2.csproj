@@ -162,10 +162,14 @@
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\github.png" />
     <Content Include="Content\Images\lock.png" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\share_facebook.png" />
+    <Content Include="Content\Images\share_google.png" />
+    <Content Include="Content\Images\share_twitter.png" />
     <Content Include="Content\Images\soundcloud.png" />
     <Content Include="Content\Images\twitter.png" />
     <Content Include="Content\Images\youtube.png" />
@@ -248,6 +252,9 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ZeroClipboard.js" />
+    <Content Include="Scripts\ZeroClipboard.min.js" />
+    <Content Include="Content\ZeroClipboard.swf" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
