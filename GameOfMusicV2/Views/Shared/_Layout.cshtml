@@ -10,31 +10,37 @@
     <meta name="description" content="Game of Music | A music experiment based on Conway's Game of Life'" />
     @Html.Partial("Analytics")
     <script src="//code.createjs.com/createjs-2013.12.12.min.js"></script>
-<body>
-    
-    <div class="container body-content">
-        @RenderBody()
+    <body>
 
-    </div>
-    <footer>
-        <p>Made by Oded Welgreen</p>
-        <ul>
-            <li><a href="https://twitter.com/injagames" target="_blank"><img src="~/Content/Images/twitter.png" /> </a></li>
-            <li><a href="https://github.com/OdedW/game-of-music" target="_blank"><img src="~/Content/Images/github.png" /> </a></li>
-            <li><a href="https://soundcloud.com/injagames" target="_blank"> <img src="~/Content/Images/soundcloud.png" /> </a></li>
-            <li><a href="https://www.youtube.com/channel/UCA8cEeddcTGoZAPoBbFC78A" target="_blank"> <img src="~/Content/Images/youtube.png" /> </a></li>
-            <li><a href="mailto:InjaGames@outlook.com" target="_top"><img src="~/Content/Images/email.png" /> </a></li>
-        </ul>
-        <p>
-            <span>Works best on WebKit •</span>
-            <a href="http://www.google.com/chrome" target="_blank">Chrome</a>
-            <span>or</span>
-            <a href="http://www.apple.com/safari" target="_blank">Safari</a>
-        </p>
-    </footer>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jsextlibs")
-    @RenderSection("scripts", required: false)
-</body>
+        <div class="container body-content">
+            @RenderBody()
+
+        </div>
+        <footer>
+            <p>Made by Oded Welgreen</p>
+            <ul>
+                <li><a href="https://twitter.com/injagames" target="_blank"><img src="~/Content/Images/twitter.png" /> </a></li>
+                <li><a href="https://github.com/OdedW/game-of-music" target="_blank"><img src="~/Content/Images/github.png" /> </a></li>
+                <li><a href="https://soundcloud.com/injagames" target="_blank"> <img src="~/Content/Images/soundcloud.png" /> </a></li>
+                <li><a href="https://www.youtube.com/channel/UCA8cEeddcTGoZAPoBbFC78A" target="_blank"> <img src="~/Content/Images/youtube.png" /> </a></li>
+                <li><a href="mailto:InjaGames@outlook.com" target="_top"><img src="~/Content/Images/email.png" /> </a></li>
+            </ul>
+            <p>
+                <span>Works best on WebKit •</span>
+                <a href="http://www.google.com/chrome" target="_blank">Chrome</a>
+                <span>or</span>
+                <a href="http://www.apple.com/safari" target="_blank">Safari</a>
+            </p>
+        </footer>
+        @Scripts.Render("~/bundles/jquery")
+        @*@Scripts.Render("~/bundles/bootstrap")*@
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/respond.js"></script>
+        <script src="~/Scripts/knockout-3.1.0.js"></script>
+        @*@Scripts.Render("~/bundles/jsextlibs")*@
+        <script src="~/Scripts/require.js"></script>
+        <script src="~/Scripts/buffer-loader.js"></script>
+        <script src="~/Scripts/ZeroClipboard.js"></script>
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
