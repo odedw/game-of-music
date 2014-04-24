@@ -21,7 +21,7 @@
                  ]),
                  bpm: ko.observable(123),
              },
-            isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false), trackUrl = ko.observable("http://localhost:65003?id=fWONAXaD90iiKVPFV0hUcA"),
+            isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false), trackUrl = ko.observable(""),
             isLocked = ko.observable(false),
             initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
             //timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
@@ -71,10 +71,10 @@
 
                 //sharing
                 $('#share-track-dlg').on('show.bs.modal', function (e) {
-                    //generateLink();
+                    generateLink();
                 });
                 $('#share-track-dlg').on('hidden.bs.modal', function (e) {
-                    //trackUrl("");
+                    trackUrl("");
                     $('#copy-btn').html('Copy');
 
                 });
@@ -285,6 +285,9 @@
             copyLink = function() {
             },
             generateLink = function () {
+                trackUrl('http://gameofmusic.azurewebsites.net?id=fWONAXaD90iiKVPFV0hUcA');
+                return;
+                
                 var chords = [];
                 song.chords().each(function(chord) {
                     chords.push({ key: chord.key(), mod: chord.mod() });
