@@ -285,9 +285,6 @@
             copyLink = function() {
             },
             generateLink = function () {
-                trackUrl('http://gameofmusic.azurewebsites.net?id=fWONAXaD90iiKVPFV0hUcA');
-                return;
-                
                 var chords = [];
                 song.chords().each(function(chord) {
                     chords.push({ key: chord.key(), mod: chord.mod() });
@@ -302,7 +299,8 @@
                     .done(function (id) {
                         trackUrl(window.location.origin + '?id=' + id);
                     })
-                    .fail(function(data) {
+                    .fail(function (data) {
+                        trackUrl('');
                     });
             },
             popupCenter = function (url, title, w, h) {

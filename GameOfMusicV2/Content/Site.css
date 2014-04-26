@@ -248,6 +248,9 @@ footer {
   padding: 20px 0px;
   border-top: 1px solid #DADAB2;
 }
+footer a {
+  color: #DADAB2;
+}
 footer ul {
   padding: 0px;
 }
@@ -271,6 +274,12 @@ footer ul li img:hover {
 }
 footer ul li img:active {
   top: 1px;
+}
+footer iframe {
+  border: none;
+  height: 20px;
+  display: inline-block;
+  width: 82px !important;
 }
 .modal-dialog-center {
   margin-top: 15%;
