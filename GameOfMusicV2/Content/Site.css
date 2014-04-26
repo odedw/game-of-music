@@ -295,6 +295,20 @@ footer ul li img:active {
 .modal-dialog-center #social-share .btn:active {
   top: 1px;
 }
+.modal-dialog-center #social-share .btn:hover {
+  opacity: 0.8;
+}
+.modal-dialog-center #social-share .btn img {
+  position: absolute;
+  left: 5px;
+  top: 2px;
+}
+.modal-dialog-center #social-share a {
+  text-decoration: none;
+}
+.modal-dialog-center #social-share a:hover {
+  text-decoration: none;
+}
 .modal-dialog-center #social-share #share-track-facebook {
   background: #3A589B;
   color: white;

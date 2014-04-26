@@ -337,52 +337,76 @@ footer {
 
 .modal-dialog-center {
     margin-top: 15%;
-    #spinner{
-        margin-left:5px;
-    }
-    #url-input-container{
-        margin-top:2px;
+
+    #spinner {
+        margin-left: 5px;
     }
 
-    #social-share{
-        margin-top:10px;
-        width:100%;
-        .btn{
+    #url-input-container {
+        margin-top: 2px;
+    }
+
+    #social-share {
+        margin-top: 10px;
+        width: 100%;
+
+        .btn {
             border: none;
             width: 140px;
-            position:relative;
-            &:active{
-                top:1px;
+            position: relative;
+
+            &:active {
+                top: 1px;
             }
-            margin-top:2px;
-            margin-right:10px;
-        }
-        #share-track-facebook{
-            background:#3A589B;
-            color:white;
-            
-            img{
-                background-color:white;
+
+            margin-top: 2px;
+            margin-right: 10px;
+
+            &:hover {
+                opacity: 0.8;
             }
-        }
-        #share-track-twitter{
-            background:#598DCA;
-            color:white;
-            
-            img{
-                background-color:white;
-            }
-        }
-        #share-track-google{
-            background:#DC422B;
-            color:white;
-            
-            img{
-                background-color:white;
+
+            img {
+                position: absolute;
+                left: 5px;
+                top: 2px;
             }
         }
 
+        a {
+            text-decoration: none;
 
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        #share-track-facebook {
+            background: #3A589B;
+            color: white;
+
+            img {
+                background-color: white;
+            }
+        }
+
+        #share-track-twitter {
+            background: #598DCA;
+            color: white;
+
+            img {
+                background-color: white;
+            }
+        }
+
+        #share-track-google {
+            background: #DC422B;
+            color: white;
+
+            img {
+                background-color: white;
+            }
+        }
     }
 }
 

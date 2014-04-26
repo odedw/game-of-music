@@ -164,6 +164,7 @@
     </Content>
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\email.png" />
+    <Content Include="Content\Images\gameofmusic.png" />
     <Content Include="Content\Images\github.png" />
     <Content Include="Content\Images\lock.png" />
     <Content Include="Content\Images\logo.png" />

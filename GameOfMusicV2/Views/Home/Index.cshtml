@@ -89,11 +89,13 @@
                             <span>Twitter</span>
                         </div>
                     </a>
-                    <div id="share-track-google" class="btn">
-                        <img src="/Content/Images/share_google.png" alt="" />
-                        <span>Google</span>
-                    </div>
-                </div>
+                    <a id="google-link" data-bind="attr{href:'https://plus.google.com/share?url=' + encodeURIComponent(trackUrl())}" class="popup">
+                        <div id="share-track-google" class="btn">
+                            <img src="/Content/Images/share_google.png" alt="" />
+                            <span>Google</span>
+                        </div>
+                    </a>
+            </div>
             </div>
             <div class="modal-footer">
                 <div class="btn btn-default" data-dismiss="modal">Close</div>
