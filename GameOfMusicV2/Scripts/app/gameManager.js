@@ -1,10 +1,10 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView'], function (ko, c, gameLogic, assetManager, sm, gameView) {
+    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', '../intro'], function (ko, c, gameLogic, assetManager, sm, gameView, intro) {
         var keysDown = {},
-             song = {
-                 chords: ko.observableArray([
-                     { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) },
-                     //{ key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
+            song = {
+                chords: ko.observableArray([
+                    { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) },
+                    //{ key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
                      //{ key: ko.observable('D'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
                      //{ key: ko.observable('F#'), mod: ko.observable('min'), isCurrent: ko.observable(false) },
                      //{ key: ko.observable('E'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
@@ -17,10 +17,9 @@
                      //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
                      //{ key: ko.observable('A#'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
                      //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-
-                 ]),
-                 bpm: ko.observable(123),
-             },
+                ]),
+                bpm: ko.observable(123),
+            },
             isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false), trackUrl = ko.observable(""),
             isLocked = ko.observable(false),
             initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
@@ -35,19 +34,19 @@
             last16thNoteDrawn = -1, // the last "box" we drew on the screen
            
             currentChord = 0,
-            init = function () {
+            init = function() {
                 ko.applyBindings(this);
-                gameView.init(function (x, y) {
+                gameView.init(function(x, y) {
                     return gameLogic.getCell(x, y);
                 });
-                gameView.cellLivenessChanged.add(function (x, y, dead) {
+                gameView.cellLivenessChanged.add(function(x, y, dead) {
                     gameLogic.getCell(x, y).dead = dead;
                 });
-                gameView.cellLockStateChanged.add(function (x, y, locked) {
+                gameView.cellLockStateChanged.add(function(x, y, locked) {
                     gameLogic.getCell(x, y).locked = locked;
                 });
                 setupKeys();
-                assetManager.loadCompleteEvent.add(function () {
+                assetManager.loadCompleteEvent.add(function() {
                     gameView.initializeGraphics();
                     if (window.track) {
                         loadTrack(window.track);
@@ -56,9 +55,9 @@
                 assetManager.loadAssets();
                 tick();
                 enablePopover();
-                $('html').on('mouseup', function (e) {
+                $('html').on('mouseup', function(e) {
                     if (!$(e.target).closest('.popover.in').length) {
-                        $('.popover').each(function () {
+                        $('.popover').each(function() {
                             $(this.previousSibling).popover('destroy');
                         });
                         $('.popover').remove();
@@ -70,36 +69,36 @@
                 });
 
                 //sharing
-                $('#share-track-dlg').on('show.bs.modal', function (e) {
+                $('#share-track-dlg').on('show.bs.modal', function(e) {
                     generateLink();
                 });
-                $('#share-track-dlg').on('hidden.bs.modal', function (e) {
+                $('#share-track-dlg').on('hidden.bs.modal', function(e) {
                     trackUrl("");
                     $('#copy-btn').html('Copy');
 
                 });
-                $('a.popup').on('click', function (e) {
+                $('a.popup').on('click', function(e) {
                     var that = $(this);
                     popupCenter(that.attr('href'), 'checkout my track', 580, 470);
                     e.preventDefault();
                 });
-                
-                    var clip = new ZeroClipboard(document.getElementById("copy-btn"), {
-                        moviePath: "/Content/ZeroClipboard.swf"
-                    });                    
 
-                    clip.on('complete', function (client, args) {
-                        $(this).html('Copied!');
-                    });
+                var clip = new ZeroClipboard(document.getElementById("copy-btn"), {
+                    moviePath: "/Content/ZeroClipboard.swf"
+                });
+
+                clip.on('complete', function(client, args) {
+                    $(this).html('Copied!');
+                });
             },
-            loadTrack = function (track) {
+            loadTrack = function(track) {
                 //set bpm
                 song.bpm(track.bpm);
-                
+
                 //set sound set
                 sm.setSoundBank(track.sound);
                 $('#sound-set-input').val(track.sound);
-                
+
                 //set chords
                 track.chords = JSON.parse(track.chords);
                 var chords = [];
@@ -112,7 +111,7 @@
                     chords.push({ key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) });
                 }
                 song.chords(chords);
-                
+
                 //set board
                 track.cells = JSON.parse(track.cells);
                 isVerifyingClear(true);
@@ -124,32 +123,30 @@
                 matchLogic();
 
             },
-            setupKeys = function () {
+            setupKeys = function() {
                 document.onkeydown = handleKeyDown;
                 document.onkeyup = handleKeyUp;
             },
-            handleKeyDown = function (e) {
+            handleKeyDown = function(e) {
                 if (!keysDown[e.keyCode]) {
                     keysDown[e.keyCode] = true;
                     if (e.keyCode === c.KEY_SPACE) {
                         togglePlay();
-                    }
-                    else if (e.keyCode === c.KEY_R) {
+                    } else if (e.keyCode === c.KEY_R) {
                         clear();
                     }
                 }
             },
-            handleKeyUp = function (e) {
+            handleKeyUp = function(e) {
                 keysDown[e.keyCode] = false;
             },
-
-            tick = function () {
+            tick = function() {
                 var currentNote = last16thNoteDrawn;
                 var currentTime = sm.context.currentTime;
 
                 while (notesInQueue.length && notesInQueue[0].time < currentTime) {
                     currentNote = notesInQueue[0].note;
-                    notesInQueue.splice(0, 1);   // remove note from queue
+                    notesInQueue.splice(0, 1); // remove note from queue
                 }
 
                 // We only need to draw if the note has moved.
@@ -161,7 +158,7 @@
                 // set up to draw again
                 window.requestAnimationFrame(tick);
             },
-            nextChord = function () {
+            nextChord = function() {
                 song.chords()[currentChord].isCurrent(false);
                 currentChord++;
                 if (currentChord >= song.chords().length) //loop
@@ -169,13 +166,13 @@
                 song.chords()[currentChord].isCurrent(true);
             },
             //Sound scheduling
-            nextNote = function () {
+            nextNote = function() {
                 // Advance current note and time by a 16th note...
-                var secondsPerBeat = 60.0 / song.bpm();    // Notice this picks up the CURRENT 
+                var secondsPerBeat = 60.0 / song.bpm(); // Notice this picks up the CURRENT 
                 // tempo value to calculate beat length.
-                nextNoteTime += 0.25 * secondsPerBeat;    // Add beat length to last beat time
+                nextNoteTime += 0.25 * secondsPerBeat; // Add beat length to last beat time
 
-                current16thNote++;    // Advance the beat number, wrap to zero
+                current16thNote++; // Advance the beat number, wrap to zero
                 if (current16thNote === 16) {
                     current16thNote = 0;
                 }
@@ -205,7 +202,7 @@
             getChordString = function(chordObj) {
                 return chordObj.key() + chordObj.mod();
             },
-            scheduler = function () {
+            scheduler = function() {
                 // while there are notes that will need to play before the next interval, 
                 // schedule them and advance the pointer.
                 while (nextNoteTime < sm.context.currentTime + scheduleAheadTime) {
@@ -214,35 +211,34 @@
                 }
                 timerId = window.setTimeout(scheduler, lookahead);
             },
-
             //click events
-            togglePlay = function () {
+            togglePlay = function() {
                 isPlaying(!isPlaying());
                 gameView.setColumnIndicatorVisibility(isPlaying(), currentColumn);
                 if (isPlaying()) { // start playing
                     current16thNote = 0;
                     nextNoteTime = sm.context.currentTime;
-                    scheduler();    // kick off scheduling
+                    scheduler(); // kick off scheduling
                     return "stop";
                 } else {
                     window.clearTimeout(timerId);
                     return "play";
                 }
             },
-            toggleMute = function () {
+            toggleMute = function() {
                 isMuted(!isMuted());
             },
-             clear = function () {
-                 if (isVerifyingClear()) { //double clicked, clear
-                     gameLogic.clear();
-                     matchLogic();
-                 }
-                 isVerifyingClear(!isVerifyingClear());
-             },
-            stopVerifyingClear = function () {
+            clear = function() {
+                if (isVerifyingClear()) { //double clicked, clear
+                    gameLogic.clear();
+                    matchLogic();
+                }
+                isVerifyingClear(!isVerifyingClear());
+            },
+            stopVerifyingClear = function() {
                 isVerifyingClear(false);
             },
-            matchLogic = function () {
+            matchLogic = function() {
                 for (var y = 0; y < c.ROWS; y++) {
                     for (var x = 0; x < c.COLUMNS; x++) {
                         var cell = gameLogic.getCell(x, y);
@@ -251,16 +247,16 @@
                     }
                 }
             },
-            removeChord = function (chord) {
+            removeChord = function(chord) {
                 song.chords.remove(chord);
             },
             addChord = function(chord) {
                 song.chords.splice(song.chords().indexOf(chord) + 1, 0, { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
             },
-            changeKey = function (chord, evt) {
+            changeKey = function(chord, evt) {
                 var target = $(evt.currentTarget);
-                target.on('shown.bs.popover', function () {
-                    target.parent().find('.popover.in td').click(function () {
+                target.on('shown.bs.popover', function() {
+                    target.parent().find('.popover.in td').click(function() {
                         var val = $(this).text();
                         target.popover('destroy');
                         chord.key(val);
@@ -268,12 +264,12 @@
                 });
 
             },
-            changeMod = function (chord, evt) {
+            changeMod = function(chord, evt) {
                 var target = $(evt.currentTarget);
-                target.on('shown.bs.popover', function () {
-                    target.parent().find('.popover.in td').click(function () {
+                target.on('shown.bs.popover', function() {
+                    target.parent().find('.popover.in td').click(function() {
                         var val = $(this).text();
-                        target.popover('destroy');                        
+                        target.popover('destroy');
                         $('.popover').remove();
                         chord.mod(val);
                     });
@@ -284,7 +280,7 @@
             },
             copyLink = function() {
             },
-            generateLink = function () {
+            generateLink = function() {
                 var chords = [];
                 song.chords().each(function(chord) {
                     chords.push({ key: chord.key(), mod: chord.mod() });
@@ -296,14 +292,14 @@
                     cells: JSON.stringify(gameLogic.getBoard())
                 };
                 $.post("api/tracks", trackObj)
-                    .done(function (id) {
+                    .done(function(id) {
                         trackUrl(window.location.origin + '?id=' + id);
                     })
-                    .fail(function (data) {
+                    .fail(function(data) {
                         trackUrl('');
                     });
             },
-            popupCenter = function (url, title, w, h) {
+            popupCenter = function(url, title, w, h) {
                 // Fixes dual-screen position                         Most browsers      Firefox
                 var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
                 var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
@@ -321,6 +317,9 @@
                     newWindow.focus();
                 }
             },
+            showIntro = function() {
+                intro().start();
+            },
             enablePopover = function() {
                 $('.enable-popover').popover({ html: true });
                 $('.enable-popover.key').attr('data-content', $('#chords-list').html());
@@ -330,6 +329,6 @@
             init: init,
             song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked, trackUrl: trackUrl,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink, showIntro:showIntro
         };
     });

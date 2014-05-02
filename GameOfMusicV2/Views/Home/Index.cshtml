@@ -12,7 +12,7 @@
 <div class="container">
     <div id="game-container">
         @*<canvas id="game-canvas" width="419" height="259" onselectstart="return false;"></canvas>*@
-        <table id="game-table"></table>
+        <table id="game-table" data-intro="Mark stuff" data-step="1"></table>
     </div>
     <div id="controls-container">
         <button type="button" class="btn btn-primary" data-bind="click: togglePlay">
@@ -39,11 +39,11 @@
         <button type="button" class="btn btn-primary" id="share-btn" data-toggle="modal" data-target="#share-track-dlg">
             <span class="glyphicon glyphicon-share"></span><span id="text">Share This Song</span>
         </button>
-        <button type="button" class="btn btn-primary" id="help-btn">
+        <button type="button" class="btn btn-primary" id="help-btn" data-bind="click: showIntro">
             <span class="glyphicon glyphicon-question-sign"></span>
         </button>
     </div>
-    <div id="chord-container" class="well">
+    <div id="chord-container" class="well" data-intro="set chords" data-step="2">
         <ul data-bind="foreach: song.chords">
             <li data-bind="css:{ current:isCurrent}">
                 <span class="key enable-popover" data-bind="text: key, click: $parent.changeKey" data-placement="bottom"></span>
