@@ -17,7 +17,8 @@
                       target: "game-container",
                       placement: "bottom",
                       xOffset: 'center',
-                      arrowOffset: 'center'
+                      arrowOffset: 'center',
+                      showPrevButton:true
                   },
                   {
                       title: "Play/Pause",
@@ -25,7 +26,8 @@
                       target: 'play-btn',
                       xOffset: 'center',
                       arrowOffset: 'center',
-                      placement: "bottom"
+                      placement: "bottom",
+                      showPrevButton: true
                   },
                   {
                       title: "Clear",
@@ -33,7 +35,8 @@
                       target: 'clear-btn',
                       xOffset: 'center',
                       arrowOffset: 'center',
-                      placement: "bottom"
+                      placement: "bottom",
+                      showPrevButton: true
                   },
                     {
                         title: "Lock",
@@ -41,7 +44,8 @@
                         target: 'lock-btn',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         title: "BPM",
@@ -49,7 +53,8 @@
                         target: 'bpm-container',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         title: "Sound Set",
@@ -57,7 +62,8 @@
                         target: 'sound-set-container',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         title: "Help",
@@ -65,7 +71,8 @@
                         target: 'help-btn',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         title: "Share",
@@ -73,7 +80,8 @@
                         target: 'share-btn',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         title: "Chords",
@@ -81,14 +89,16 @@
                         target: 'chord-container',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                     {
                         content: "Don't forget to share your track, and have fun!",
                         target: 'share-btn',
                         xOffset: 'center',
                         arrowOffset: 'center',
-                        placement: "bottom"
+                        placement: "bottom",
+                        showPrevButton: true
                     },
                 ]
         };
