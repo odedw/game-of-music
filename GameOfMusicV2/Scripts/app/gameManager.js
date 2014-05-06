@@ -312,6 +312,7 @@
                 }
             },
             showTour = function () {
+                analytics.track('Help Click');
                 hopscotch.startTour(tour);
             },
             enablePopover = function() {
