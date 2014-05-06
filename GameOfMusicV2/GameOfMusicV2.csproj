@@ -162,6 +162,7 @@
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Content\hopscotch.css" />
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\gameofmusic.png" />
@@ -172,12 +173,10 @@
     <Content Include="Content\Images\share_google.png" />
     <Content Include="Content\Images\share_twitter.png" />
     <Content Include="Content\Images\soundcloud.png" />
+    <Content Include="Content\Images\sprite-green.png" />
+    <Content Include="Content\Images\sprite-orange.png" />
     <Content Include="Content\Images\twitter.png" />
     <Content Include="Content\Images\youtube.png" />
-    <Content Include="Content\introjs-rtl.css" />
-    <Content Include="Content\introjs-rtl.min.css" />
-    <Content Include="Content\introjs.css" />
-    <Content Include="Content\introjs.min.css" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
@@ -195,6 +194,7 @@
     <Content Include="Scripts\app\gameManager.js" />
     <Content Include="Scripts\app\gameView.js" />
     <Content Include="Scripts\app\soundManager.js" />
+    <Content Include="Scripts\app\tour.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -324,8 +324,7 @@
     <Content Include="Content\Sounds\rock-G_2.ogg" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\buffer-loader.js" />
-    <Content Include="Scripts\intro.js" />
-    <Content Include="Scripts\intro.min.js" />
+    <Content Include="Scripts\hopscotch.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />

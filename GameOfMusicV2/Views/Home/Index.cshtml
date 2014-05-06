@@ -9,19 +9,18 @@
     var track = ViewBag.Track as string;
 }
 
-<div class="container">
+<div class="container" id="container">
     <div id="game-container">
-        @*<canvas id="game-canvas" width="419" height="259" onselectstart="return false;"></canvas>*@
-        <table id="game-table" data-intro="Mark stuff" data-step="1"></table>
+        <table id="game-table"></table>
     </div>
     <div id="controls-container">
-        <button type="button" class="btn btn-primary" data-bind="click: togglePlay">
+        <button type="button" class="btn btn-primary" data-bind="click: togglePlay" id="play-btn">
             <span data-bind="css: { glyphicon: true, 'glyphicon-play': !isPlaying(), 'glyphicon-pause': isPlaying }"></span>
         </button>
-        <button type="button" class="btn btn-primary" data-bind="click: clear, event: { blur: stopVerifyingClear }">
+        <button type="button" class="btn btn-primary" data-bind="click: clear, event: { blur: stopVerifyingClear }" id="clear-btn">
             <span data-bind="css: { glyphicon: true, 'glyphicon-trash': !isVerifyingClear(), 'glyphicon-ok': isVerifyingClear }"></span>
         </button>
-        <button type="button" class="btn btn-primary" id="lock-btn" data-bind="click: toggleLock">
+        <button type="button" class="btn btn-primary" id="lock-btn" data-bind="click: toggleLock" >
             <span class="glyphicon glyphicon-lock"></span>
             <span class="glyphicon glyphicon-ban-circle" id="unlock" data-bind="visible:isLocked"></span>
         </button>
@@ -39,11 +38,11 @@
         <button type="button" class="btn btn-primary" id="share-btn" data-toggle="modal" data-target="#share-track-dlg">
             <span class="glyphicon glyphicon-share"></span><span id="text">Share This Song</span>
         </button>
-        <button type="button" class="btn btn-primary" id="help-btn" data-bind="click: showIntro">
+        <button type="button" class="btn btn-primary" id="help-btn" data-bind="click: showTour">
             <span class="glyphicon glyphicon-question-sign"></span>
         </button>
     </div>
-    <div id="chord-container" class="well" data-intro="set chords" data-step="2">
+    <div id="chord-container" class="well">
         <ul data-bind="foreach: song.chords">
             <li data-bind="css:{ current:isCurrent}">
                 <span class="key enable-popover" data-bind="text: key, click: $parent.changeKey" data-placement="bottom"></span>

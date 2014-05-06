@@ -1,29 +1,16 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', '../intro'], function (ko, c, gameLogic, assetManager, sm, gameView, intro) {
+    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'tour', 'hopscotch'], function (ko, c, gameLogic, assetManager, sm, gameView, tour, hopscotch) {
         var keysDown = {},
             song = {
                 chords: ko.observableArray([
-                    { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) },
-                    //{ key: ko.observable('B'), mod: ko.observable('min7'), isCurrent: ko.observable(true) },
-                     //{ key: ko.observable('D'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('F#'), mod: ko.observable('min'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('E'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     
-                     // { key: ko.observable('F'), mod: ko.observable('aug'), isCurrent: ko.observable(true)},
-                     //{ key: ko.observable('C#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('F'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('C#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('A#'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('A#'), mod: ko.observable('aug'), isCurrent: ko.observable(false) },
-                     //{ key: ko.observable('F#'), mod: ko.observable('maj'), isCurrent: ko.observable(false) },
+                    { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(true) }
                 ]),
                 bpm: ko.observable(123),
             },
             isPlaying = ko.observable(false), isMuted = ko.observable(false), isVerifyingClear = ko.observable(false), trackUrl = ko.observable(""),
             isLocked = ko.observable(false),
-            initialTimeForColumnStep = 60000 / (4 * song.bpm()), currentColumn = 0,
-            //timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
+            currentColumn = 0,
+            //initialTimeForColumnStep = 60000 / (4 * song.bpm()), timeSinceLastStep = 0, lastTimestamp = 0, timeForColumnStep = initialTimeForColumnStep, timeSinceLastBeat = 0, beats = 0, average = 0,
             nextNoteTime = 0.0, // when the next note is due.
             current16thNote, // What note is currently last scheduled?
             notesInQueue = [],
@@ -317,8 +304,8 @@
                     newWindow.focus();
                 }
             },
-            showIntro = function() {
-                intro().start();
+            showTour = function () {
+                hopscotch.startTour(tour);
             },
             enablePopover = function() {
                 $('.enable-popover').popover({ html: true });
@@ -329,6 +316,6 @@
             init: init,
             song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked, trackUrl: trackUrl,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink, showIntro:showIntro
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink, showTour: showTour
         };
     });
