@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'tour', 'hopscotch'], function (ko, c, gameLogic, assetManager, sm, gameView, tour, hopscotch) {
+    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'tour', 'hopscotch', 'analytics'], function (ko, c, gameLogic, assetManager, sm, gameView, tour, hopscotch, analytics) {
         var keysDown = {},
             song = {
                 chords: ko.observableArray([
@@ -66,6 +66,7 @@
                 $('a.popup').on('click', function(e) {
                     var that = $(this);
                     popupCenter(that.attr('href'), 'checkout my track', 580, 470);
+                    analytics.track('Social Click', { id: that.attr('id') });
                     e.preventDefault();
                 });
 
@@ -286,9 +287,11 @@
                 $.post("api/tracks", trackObj)
                     .done(function(id) {
                         trackUrl(window.location.origin + '?id=' + id);
+                        analytics.track('Share Click', {id: id});
                     })
                     .fail(function(data) {
                         trackUrl('');
+                        analytics.track('Failed generating share', { data: data });
                     });
             },
             popupCenter = function(url, title, w, h) {
