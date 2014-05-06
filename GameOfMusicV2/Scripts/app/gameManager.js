@@ -33,13 +33,12 @@
                     gameLogic.getCell(x, y).locked = locked;
                 });
                 setupKeys();
-                assetManager.loadCompleteEvent.add(function() {
-                    gameView.initializeGraphics();
-                    if (window.track) {
+                gameView.initializeGraphics();
+                if (window.track) {
+                    //setTimeout(function () {
                         loadTrack(window.track);
-                    }
-                });
-                assetManager.loadAssets();
+                    //}, 1);
+                }
                 tick();
                 enablePopover();
                 $('html').on('mouseup', function(e) {
@@ -78,7 +77,9 @@
                     $(this).html('Copied!');
                 });
             },
-            loadTrack = function(track) {
+            loadTrack = function (track) {
+                resetTrack();
+
                 //set bpm
                 song.bpm(track.bpm);
 
@@ -101,8 +102,6 @@
 
                 //set board
                 track.cells = JSON.parse(track.cells);
-                isVerifyingClear(true);
-                clear();
                 track.cells.each(function(cell) {
                     gameLogic.getCell(cell.x, cell.y).dead = cell.dead;
                     gameLogic.getCell(cell.x, cell.y).locked = cell.locked;
@@ -217,12 +216,16 @@
             },
             clear = function() {
                 if (isVerifyingClear()) { //double clicked, clear
-                    gameLogic.clear();
-                    matchLogic();
-                    song.chords([]);
-                    song.chords.push({ key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
+                    resetTrack();
                 }
                 isVerifyingClear(!isVerifyingClear());
+            },
+            resetTrack = function() {
+                gameLogic.clear();
+                matchLogic();
+                song.chords([]);
+                song.chords.push({ key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
+                currentChord = 0;
             },
             stopVerifyingClear = function() {
                 isVerifyingClear(false);

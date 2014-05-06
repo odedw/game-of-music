@@ -40,7 +40,7 @@
             finishedLoading = function(bufferList) {
                 // Create two sources and play them both together.
                 soundBuffers = bufferList;
-                //playSound(0, 0);
+                playSound(120, 0); //play noop
             },
             playSound = function (index, time) {
                 var source = context.createBufferSource();
@@ -213,7 +213,8 @@
                         '/Content/Sounds/latin-C3.ogg', //116
                         '/Content/Sounds/latin-C_3.ogg', //117
                         '/Content/Sounds/latin-D3.ogg', //118
-                        '/Content/Sounds/latin-D_3.ogg' //119
+                        '/Content/Sounds/latin-D_3.ogg', //119
+                        '/Content/Sounds/noop.ogg' 
                     ],
                     finishedLoading
                 );

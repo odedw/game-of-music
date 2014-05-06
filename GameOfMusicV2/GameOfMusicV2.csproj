@@ -163,6 +163,9 @@
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Content\hopscotch.css" />
+    <Content Include="Content\hopscotch.min.css">
+      <DependentUpon>hopscotch.css</DependentUpon>
+    </Content>
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\gameofmusic.png" />
@@ -322,16 +325,35 @@
     <Content Include="Content\Sounds\rock-G2.ogg" />
     <Content Include="Content\Sounds\rock-G_1.ogg" />
     <Content Include="Content\Sounds\rock-G_2.ogg" />
+    <Content Include="Scripts\buffer-loader.min.js">
+      <DependentUpon>buffer-loader.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hopscotch.min.js.map">
+      <DependentUpon>hopscotch.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\buffer-loader.min.js.map">
+      <DependentUpon>buffer-loader.min.js</DependentUpon>
+    </Content>
+    <Content Include="Content\Sounds\noop.ogg" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\buffer-loader.js" />
     <Content Include="Scripts\hopscotch.js" />
+    <Content Include="Scripts\hopscotch.min.js">
+      <DependentUpon>hopscotch.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
+    <Content Include="Scripts\knockout-3.1.0.min.js">
+      <DependentUpon>knockout-3.1.0.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\require.min.js">
+      <DependentUpon>require.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\ZeroClipboard.js" />
@@ -352,6 +374,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\Analytics.cshtml" />
+    <Content Include="Scripts\require.min.js.map">
+      <DependentUpon>require.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\knockout-3.1.0.min.js.map">
+      <DependentUpon>knockout-3.1.0.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
