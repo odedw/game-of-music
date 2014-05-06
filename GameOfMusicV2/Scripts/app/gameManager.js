@@ -35,10 +35,9 @@
                 setupKeys();
                 gameView.initializeGraphics();
                 if (window.track) {
-                    //setTimeout(function () {
                         loadTrack(window.track);
-                    //}, 1);
                 }
+
                 tick();
                 enablePopover();
                 $('html').on('mouseup', function(e) {

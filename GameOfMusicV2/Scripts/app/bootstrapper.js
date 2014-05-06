@@ -2,7 +2,8 @@
     ['analytics', 'gameManager'],
     function (analytics, gameManager) {
         var run = function () {
-            analytics.track('Page View');
+            var url = window.location.href;
+            analytics.track('Page View', { URL: url});
             Math.sign = function (number) { return number ? number < 0 ? -1 : 1 : 0; };
             startApp();
         },
