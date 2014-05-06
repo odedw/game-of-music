@@ -207,9 +207,6 @@ input[type="checkbox"].input-validation-error {
 .container #chord-container ul li .add-btn:hover {
   color: #41b241;
 }
-.container #chord-container ul li:first-child .remove-btn {
-  display: none !important;
-}
 .container #chord-container ul li:hover .remove-btn {
   display: block;
 }
