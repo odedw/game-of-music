@@ -219,6 +219,8 @@
                 if (isVerifyingClear()) { //double clicked, clear
                     gameLogic.clear();
                     matchLogic();
+                    song.chords([]);
+                    song.chords.push({ key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
                 }
                 isVerifyingClear(!isVerifyingClear());
             },
