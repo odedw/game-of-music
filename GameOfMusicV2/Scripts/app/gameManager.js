@@ -40,29 +40,38 @@
 
                 tick();
                 enablePopover();
-                $('html').on('mouseup', function(e) {
+
+                setupHtmlHooks();
+            },
+            setupHtmlHooks = function() {
+                $(window).blur(function (e) {
+                    if (isPlaying()) {
+                        togglePlay();
+                    }
+                });
+                $('html').on('mouseup', function (e) {
                     if (!$(e.target).closest('.popover.in').length) {
-                        $('.popover').each(function() {
+                        $('.popover').each(function () {
                             $(this.previousSibling).popover('destroy');
                         });
                         $('.popover').remove();
                         enablePopover();
                     }
                 });
-                $('#sound-set-input').change(function() {
+                $('#sound-set-input').change(function () {
                     sm.setSoundBank($(this).val());
                 });
 
                 //sharing
-                $('#share-track-dlg').on('show.bs.modal', function(e) {
+                $('#share-track-dlg').on('show.bs.modal', function (e) {
                     generateLink();
                 });
-                $('#share-track-dlg').on('hidden.bs.modal', function(e) {
+                $('#share-track-dlg').on('hidden.bs.modal', function (e) {
                     trackUrl("");
                     $('#copy-btn').html('Copy');
 
                 });
-                $('a.popup').on('click', function(e) {
+                $('a.popup').on('click', function (e) {
                     var that = $(this);
                     popupCenter(that.attr('href'), 'checkout my track', 580, 470);
                     analytics.track('Social Click', { id: that.attr('id') });
@@ -73,7 +82,7 @@
                     moviePath: "/Content/ZeroClipboard.swf"
                 });
 
-                clip.on('complete', function(client, args) {
+                clip.on('complete', function (client, args) {
                     $(this).html('Copied!');
                 });
             },
