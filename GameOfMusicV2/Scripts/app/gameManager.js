@@ -239,8 +239,13 @@
                     }
                 }
             },
-            removeChord = function(chord) {
+            removeChord = function (chord) {
+                if (song.chords().length == song.chords().indexOf(chord) + 1 &&
+                    currentChord == song.chords().indexOf(chord)) {
+                    currentChord = 0;
+                }
                 song.chords.remove(chord);
+                song.chords()[currentChord].isCurrent(true);
             },
             addChord = function(chord) {
                 song.chords.splice(song.chords().indexOf(chord) + 1, 0, { key: ko.observable('A'), mod: ko.observable('maj'), isCurrent: ko.observable(false) });
