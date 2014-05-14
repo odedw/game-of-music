@@ -4,6 +4,7 @@
             grid = [],
             leftMouseDownStartState = false, //true for dead
             rightMouseDownStart = false, //lock / unlock
+            leftMouseDown = false, rightMouseDown = false,
             cellLivenessChanged = $.Callbacks(),
             cellLockStateChanged = $.Callbacks(),
             getCellStateDelegate = undefined,
@@ -31,24 +32,29 @@
                         paintCell(td, leftMouseDownStartState);
                         cellLivenessChanged.fire(col, row, leftMouseDownStartState);
                         td.removeClass('hover');
+                        leftMouseDown = true;
                     }
                     if (evt.which === 3) { //right button
                         rightMouseDownStart = !getCellStateDelegate(td.data('col'), td.data('row')).locked;
                         setLockVisibility(td, rightMouseDownStart);
                         cellLockStateChanged.fire(col, row, rightMouseDownStart);
                         td.removeClass('hover');
+                        rightMouseDown = true;
                     }
+                });
+                $('body').on('mouseup', function (evt) {
+                    rightMouseDown = leftMouseDown = false;
                 });
                 table.on('mouseenter', 'td', function (evt) {
                     var td = $(evt.currentTarget), row = td.data('row'), col = td.data('col');
                     
-                    if (evt.which === 1) { //left button
+                    if (leftMouseDown) { //left button
                         if (getCellStateDelegate(col, row).dead !== leftMouseDownStartState) {
                             paintCell(td, leftMouseDownStartState);
                             cellLivenessChanged.fire(col, row, leftMouseDownStartState);
                         }
                     }
-                    else if (evt.which === 3) { //right button
+                    else if (rightMouseDown) { //right button
                         setLockVisibility(td, rightMouseDownStart);
                         cellLockStateChanged.fire(col, row, rightMouseDownStart);
                     } else {

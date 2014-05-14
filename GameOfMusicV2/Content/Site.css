@@ -278,6 +278,9 @@ footer iframe {
   display: inline-block;
   width: 82px !important;
 }
+footer #works-best {
+  margin-top: 5px;
+}
 .modal-dialog-center {
   margin-top: 15%;
 }
