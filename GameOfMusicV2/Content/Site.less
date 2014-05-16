@@ -3,6 +3,12 @@
     padding-bottom: 20px;
 }
 
+@-moz-document url-prefix() {
+    select {
+        padding-top: 6px;
+    }
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -85,21 +91,23 @@ input[type="checkbox"].input-validation-error {
                 user-select: none;
                 background-repeat: no-repeat;
                 background-position: center;
-                width:28px;
-                height:30px;
+                width: 28px;
+                height: 30px;
                 padding: 0;
+
                 div {
                     background-color: #00FF00;
                     opacity: 0.5;
-                    width:100%;
-                    height:100%;
-                    display:none;
+                    width: 100%;
+                    height: 100%;
+                    display: none;
+
                     &.playing {
                         display: block;
                     }
                 }
 
-                
+
 
                 &.locked {
                     background-image: url(/Content/Images/lock.png);
@@ -136,13 +144,14 @@ input[type="checkbox"].input-validation-error {
         }
 
         #lock-btn {
-            position:relative;
+            position: relative;
+
             #unlock {
                 position: absolute;
                 top: 3px;
                 bottom: 0;
                 right: 1px;
-                left:0;
+                left: 0;
                 font-size: 29px;
                 opacity: 0.7;
             }
@@ -152,18 +161,22 @@ input[type="checkbox"].input-validation-error {
             float: left;
             position: relative;
             display: inline-block;
-            height:100%;
-            top:2px;
-            #sound-set-input{
-                width:80px;
-                margin-left:6px;
-                color:black;
+            height: 100%;
+            top: 2px;
+
+            #sound-set-input {
+                width: 80px;
+                margin-left: 6px;
+                color: black;
             }
+
             .input {
                 width: 55px;
                 padding-left: 5px;
                 height: 100%;
             }
+
+            
         }
 
         #share-btn {
@@ -191,8 +204,9 @@ input[type="checkbox"].input-validation-error {
                 text-align: center;
                 margin-bottom: 10px;
                 position: relative;
-                &.current{
-                    background-color:#2d2f33;
+
+                &.current {
+                    background-color: #2d2f33;
                 }
 
                 &:last-child {
