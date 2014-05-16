@@ -21,7 +21,12 @@
             last16thNoteDrawn = -1, // the last "box" we drew on the screen
            
             currentChord = 0,
-            init = function() {
+            init = function () {
+                if (sm.browserNotSupported) {
+                    $('#container').empty();
+                    $('#browser-not-supported').show();
+                    return;
+                }
                 ko.applyBindings(this);
                 gameView.init(function(x, y) {
                     return gameLogic.getCell(x, y);

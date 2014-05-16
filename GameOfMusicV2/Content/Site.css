@@ -1,3 +1,18 @@
+#browser-not-supported {
+  position: fixed;
+  bottom: 0;
+  top: 20%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+  display: none;
+}
+#browser-not-supported div {
+  margin: auto;
+  width: 400px;
+  text-align: left;
+}
 body {
   padding-top: 50px;
   padding-bottom: 20px;

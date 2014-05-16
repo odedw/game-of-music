@@ -2,24 +2,24 @@
     ['constants'], function (c) {
         var soundBanks = {
             '8bit': {
-                'drums': Math.range(0,3),
+                'drums': Math.range(0, 3),
                 'bass': Math.range(4, 15),
                 'melody': Math.range(16, 39)
             },
             'Rock': {
-                'drums': Math.range(40,43),
+                'drums': Math.range(40, 43),
                 'bass': Math.range(44, 55),
                 'melody': Math.range(56, 79)
             },
             'Latin': {
-                'drums': Math.range(80,83),
+                'drums': Math.range(80, 83),
                 'bass': Math.range(84, 95),
                 'melody': Math.range(96, 119)
-            }    
+            }
         },
             context, soundBuffers,
             currentSoundBank = '8bit',
-            
+            browserNotSupported = false,
             play = function (sounds, time, chord) {
                 var index = 0;
                 var chordArr = buildChord(chord);
@@ -89,6 +89,10 @@
             },
             init = function() {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!window.AudioContext) {
+                    browserNotSupported = true;
+                    return;
+                }
                 context = new AudioContext();
 
                 var bufferLoader = new BufferLoader(
@@ -231,6 +235,8 @@
             context: context,
             buildChord: buildChord,
             setSoundBank: function(bank) { currentSoundBank = bank; },
-            getSoundBank: function() { return currentSoundBank; }
+            getSoundBank: function () { return currentSoundBank; },
+            browserNotSupported: browserNotSupported
+            
     };
     });

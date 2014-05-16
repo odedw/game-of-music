@@ -1,13 +1,32 @@
-﻿body {
+﻿#browser-not-supported {
+    position: fixed;
+    bottom: 0;
+    top:20%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+        z-index: 999;
+        display:none;
+    div {
+        margin: auto;
+        width: 400px;
+            text-align:left;
+
+
+    }
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+     
 }
 
 @-moz-document url-prefix() {
     select {
         padding-top: 6px;
     }
-}
+} 
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -429,5 +448,7 @@ footer {
             }
         }
     }
+
+  
 }
 
