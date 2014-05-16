@@ -85,23 +85,21 @@ input[type="checkbox"].input-validation-error {
                 user-select: none;
                 background-repeat: no-repeat;
                 background-position: center;
-
+                width:28px;
+                height:30px;
+                padding: 0;
                 div {
-                    position: absolute;
                     background-color: #00FF00;
-                    left: 0;
-                    top: 0;
-                    bottom: 0;
-                    right: 0;
                     opacity: 0.5;
-                    display: none;
-                }
-
-                &.playing {
-                    div {
+                    width:100%;
+                    height:100%;
+                    display:none;
+                    &.playing {
                         display: block;
                     }
                 }
+
+                
 
                 &.locked {
                     background-image: url(/Content/Images/lock.png);

@@ -146,8 +146,10 @@
 
                 // We only need to draw if the note has moved.
                 if (last16thNoteDrawn !== currentNote) {
-                    gameView.moveColumn(currentNote);
-                    last16thNoteDrawn = currentNote;
+                    if (isPlaying()) {
+                        gameView.moveColumn(currentNote);
+                        last16thNoteDrawn = currentNote;
+                    }
                 }
 
                 // set up to draw again

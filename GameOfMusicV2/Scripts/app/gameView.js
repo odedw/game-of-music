@@ -8,6 +8,7 @@
             cellLivenessChanged = $.Callbacks(),
             cellLockStateChanged = $.Callbacks(),
             getCellStateDelegate = undefined,
+            divs = [],
             init = function (getCellState) {
                 getCellStateDelegate = getCellState;
                 $('body').on('contextmenu', containerId, function (e) { return false; });
@@ -16,6 +17,7 @@
                 var table = $('#game-table');
                 for (var y = 0; y < c.ROWS; y++) {
                     var arr = [];
+                    divs.push([]);
                     var tr = $('<tr></tr>');
                     for (var x = 0; x < c.COLUMNS; x++) {
                         var td = createCell(x, y, getCellStateDelegate(x, y).dead);
@@ -70,6 +72,7 @@
                 var td = $('<td><div></div></td>');
                 td.attr('data-row', y);
                 td.attr('data-col', x);
+                divs[y].push(td.find('div')); //save the divs instead of finding them each time for better performance
                 return td;
             },
             paintCell = function (cellContainer, isDead) {
@@ -93,14 +96,19 @@
                 setLockVisibility(grid[row][col], isLocked);
             },
             moveColumn = function (column) {
-                $('td').removeClass('playing');
-                $('td[data-col="' + column + '"]').addClass('playing');
+                //$('div.playing').removeClass('playing');
+                var prev = column == 0 ? c.COLUMNS - 1 : column - 1;
+                $.each(divs, function (i, row) {
+                    row[prev].removeClass('playing');
+                    row[column].addClass('playing');
+                });
+                //$('td:nth-child(' + (column+1) + ') > div').addClass('playing');
             },
             setColumnIndicatorVisibility = function (visible, column) {
                 if (visible) {
                     moveColumn(column);
                 } else {
-                    $('td').removeClass('playing');
+                    $('div.playing').removeClass('playing');
                 }
             };
 
