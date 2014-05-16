@@ -1,5 +1,5 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'assetManager', 'soundManager', 'gameView', 'tour', 'hopscotch', 'analytics'], function (ko, c, gameLogic, assetManager, sm, gameView, tour, hopscotch, analytics) {
+    ['ko', 'constants', 'gameLogic', 'soundManager', 'gameView', 'tour', 'hopscotch', 'analytics'], function (ko, c, gameLogic, sm, gameView, tour, hopscotch, analytics) {
         var keysDown = {},
             song = {
                 chords: ko.observableArray([

@@ -1,5 +1,5 @@
 ﻿define('soundManager',
-    ['assetManager', 'constants'], function (assetManager,c) {
+    ['constants'], function (c) {
         var soundBanks = {
             '8bit': {
                 'drums': Math.range(0,3),

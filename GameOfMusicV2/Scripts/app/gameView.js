@@ -1,5 +1,5 @@
 ﻿define('gameView',
-    ['constants', 'assetManager'], function (c, assetManager) {
+    ['constants'], function (c) {
         var containerId = '#game-container', 
             grid = [],
             leftMouseDownStartState = false, //true for dead

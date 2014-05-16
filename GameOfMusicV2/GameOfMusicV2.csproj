@@ -190,7 +190,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\analytics.js" />
-    <Content Include="Scripts\app\assetManager.js" />
     <Content Include="Scripts\app\bootstrapper.js" />
     <Content Include="Scripts\app\constants.js" />
     <Content Include="Scripts\app\gameLogic.js" />
