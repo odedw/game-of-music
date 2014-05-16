@@ -25,6 +25,7 @@
                 if (sm.browserNotSupported) {
                     $('#container').empty();
                     $('#browser-not-supported').show();
+                    analytics.track('Browser not supported');
                     return;
                 }
                 ko.applyBindings(this);
