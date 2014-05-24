@@ -2,13 +2,11 @@
 
 A musical experiment based on Conway's Game of Life.
 
-![Game of Music](http://d3j5vwomefv46c.cloudfront.net/photos/large/839441196.gif)
+![Game of Music](https://i.imgur.com/Tny4Xjh.gif)
 
 ## License
 
 All libraries code is licensed under the corresponding library's license.
-
-All of the music was created by [Inja Games](https://twitter.com/InjaGames). Contact us if you want to use it.
 
 The rest of the source code is licensed under the MIT license:
 (The MIT License)
