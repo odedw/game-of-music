@@ -5,10 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfMusicV2", "GameOfMusicV2\GameOfMusicV2.csproj", "{BAC75460-EEB8-4D29-88B5-6DFA3ECBB03D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{66EB7B9B-422D-418D-928E-B0A1835358D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiService", "ApiService\ApiService.csproj", "{3F5FD596-52F9-4D1B-ABDD-F78940A5894D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{BAC75460-EEB8-4D29-88B5-6DFA3ECBB03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAC75460-EEB8-4D29-88B5-6DFA3ECBB03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAC75460-EEB8-4D29-88B5-6DFA3ECBB03D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66EB7B9B-422D-418D-928E-B0A1835358D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66EB7B9B-422D-418D-928E-B0A1835358D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66EB7B9B-422D-418D-928E-B0A1835358D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66EB7B9B-422D-418D-928E-B0A1835358D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F5FD596-52F9-4D1B-ABDD-F78940A5894D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F5FD596-52F9-4D1B-ABDD-F78940A5894D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F5FD596-52F9-4D1B-ABDD-F78940A5894D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F5FD596-52F9-4D1B-ABDD-F78940A5894D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
