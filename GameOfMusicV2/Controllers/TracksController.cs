@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using ApiService.Models;
 using GameOfMusicV2.Models;
 using Storage;
 
 namespace GameOfMusicV2.Controllers
 {
+    [AllowCrossSiteJson]
     public class TracksController : ApiController
     {
         // GET api/tracks/5
