@@ -195,6 +195,7 @@
     <Content Include="Scripts\app\gameView.js" />
     <Content Include="Scripts\app\soundManager.js" />
     <Content Include="Scripts\app\tour.js" />
+    <Content Include="Scripts\app\trackService.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -402,7 +403,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65003</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:65003/</IISUrl>
+          <IISUrl>http://localhost:12345</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

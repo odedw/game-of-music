@@ -1,5 +1,6 @@
 ﻿define('gameManager',
-    ['ko', 'constants', 'gameLogic', 'soundManager', 'gameView', 'tour', 'hopscotch', 'analytics'], function (ko, c, gameLogic, sm, gameView, tour, hopscotch, analytics) {
+    ['ko', 'constants', 'gameLogic', 'soundManager', 'gameView', 'tour', 'hopscotch', 'analytics', 'trackService'],
+    function (ko, c, gameLogic, sm, gameView, tour, hopscotch, analytics, trackService) {
         var keysDown = {},
             song = {
                 chords: ko.observableArray([
@@ -40,14 +41,27 @@
                 });
                 setupKeys();
                 gameView.initializeGraphics();
-                if (window.track) {
-                        loadTrack(window.track);
+                var id = getParameterByName('id');
+                if (id) {
+                    var that = this;
+                    trackService.get(id).done(function(track) {
+                        if (track) {
+                            that.loadTrack(track);
+                        }
+                    });
+                    
                 }
 
                 tick();
                 enablePopover();
 
                 setupHtmlHooks();
+            },
+            getParameterByName = function(name){
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             },
             setupHtmlHooks = function() {
                 $(window).blur(function (e) {
@@ -305,15 +319,15 @@
                     chords: JSON.stringify(chords),
                     cells: JSON.stringify(gameLogic.getBoard())
                 };
-                $.post("api/tracks", trackObj)
-                    .done(function(id) {
-                        trackUrl(window.location.origin + '?id=' + id);
-                        analytics.track('Share Click', {id: id});
-                    })
-                    .fail(function(data) {
-                        trackUrl('');
-                        analytics.track('Failed generating share', { data: data });
-                    });
+                trackService.save(trackObj)
+                      .done(function (id) {
+                            trackUrl(window.location.origin + '?id=' + id);
+                            analytics.track('Share Click', { id: id });
+                        })
+                        .fail(function (data) {
+                            trackUrl('');
+                            analytics.track('Failed generating share', { data: data });
+                        });
             },
             popupCenter = function(url, title, w, h) {
                 // Fixes dual-screen position                         Most browsers      Firefox
@@ -346,6 +360,6 @@
             init: init,
             song: song, isPlaying: isPlaying, isMuted: isMuted, isVerifyingClear: isVerifyingClear, isLocked:isLocked, trackUrl: trackUrl,
             togglePlay: togglePlay, toggleMute: toggleMute, clear: clear, stopVerifyingClear: stopVerifyingClear, removeChord: removeChord, addChord: addChord,
-            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink, showTour: showTour
+            changeKey: changeKey, changeMod: changeMod, toggleLock: toggleLock, copyLink: copyLink, showTour: showTour, loadTrack:loadTrack
         };
     });
