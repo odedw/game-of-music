@@ -108,7 +108,7 @@ input[type="checkbox"].input-validation-error {
   display: block;
 }
 .container #game-container #game-table td.locked {
-  background-image: url(/Content/Images/lock.png);
+  background-image: url(./Content/Images/lock.png);
 }
 .container #game-container #game-table td.alive {
   background-color: #FFF8DC;
